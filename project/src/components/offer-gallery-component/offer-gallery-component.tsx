@@ -8,10 +8,10 @@ function OfferGalleryComponent(): JSX.Element {
     <div className="property__gallery-container container">
       <div className="property__gallery">
 
-        {pics.map((x) =>
+        {pics.map((x) => (
           <div key={x.id} className="property__image-wrapper">
             <img className="property__image" src="img/room.jpg" alt="Studio" />
-          </div>)}
+          </div>))}
 
       </div>
     </div>

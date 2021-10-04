@@ -6,18 +6,18 @@ function OfferNearPlacesComponent(): JSX.Element {
   const places = getFakeData(3);
 
   return (
-        <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
+    <div className="container">
+      <section className="near-places places">
+        <h2 className="near-places__title">Other places in the neighbourhood</h2>
+        <div className="near-places__list places__list">
 
-              {places.map((x) =>
-                <OfferNearPlaceCardComponent key={x.id} />
-                )}
+          {places.map((x) =>
+            <OfferNearPlaceCardComponent key={x.id} />,
+          )}
 
-            </div>
-          </section>
         </div>
+      </section>
+    </div>
   );
 }
 

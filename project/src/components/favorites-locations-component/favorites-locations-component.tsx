@@ -17,8 +17,8 @@ function FavoritesLocationsComponent(): JSX.Element {
       <div className="favorites__places">
 
         {places.map((x) =>
-          <FavoritesPlaceCardComponent key={x.id} />
-          )}
+          <FavoritesPlaceCardComponent key={x.id} />,
+        )}
       </div>
     </li>
   );

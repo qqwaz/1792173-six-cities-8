@@ -1,3 +1,7 @@
 import { nanoid } from 'nanoid';
 
-export const getFakeData = (length: number) => new Array(length).fill('').map((_) => ({ id: nanoid() }));
+type DataType = {
+  id: string
+};
+
+export const getFakeData = (length: number): DataType[] => new Array(length).fill('').map((_) => ({ id: nanoid() }));

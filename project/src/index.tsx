@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './components/app/app';
 
 const Settings = {
-  OFFERS_COUNT: 3,
+  OFFERS_COUNT: 7,
 };
 
 ReactDOM.render(

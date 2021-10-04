@@ -44,8 +44,8 @@ function MainPage(props: MainPageProps): JSX.Element {
               <div className="cities__places-list places__list tabs__content">
 
                 {offers.map((x) =>
-                  <MainOfferCardComponent key={x.id} />
-                  )}
+                  <MainOfferCardComponent key={x.id} />,
+                )}
 
               </div>
             </section>
