@@ -1,4 +1,4 @@
-function MainLocationsComponent(): JSX.Element {
+function MainLocations(): JSX.Element {
   return (
     <>
       <h1 className="visually-hidden">Cities</h1>
@@ -42,4 +42,4 @@ function MainLocationsComponent(): JSX.Element {
   );
 }
 
-export default MainLocationsComponent;
+export default MainLocations;

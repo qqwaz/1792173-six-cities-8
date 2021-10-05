@@ -1,7 +1,7 @@
-import FavoritesPlaceCardComponent from '../favorites-place-card-component/favorites-place-card-component';
+import FavoritesPlaceCard from '../favorites-place-card/favorites-place-card';
 import { getFakeData } from '../../utils/common';
 
-function FavoritesLocationsComponent(): JSX.Element {
+function FavoritesLocations(): JSX.Element {
 
   const places = getFakeData(5);
 
@@ -17,11 +17,11 @@ function FavoritesLocationsComponent(): JSX.Element {
       <div className="favorites__places">
 
         {places.map((x) =>
-          <FavoritesPlaceCardComponent key={x.id} />,
+          <FavoritesPlaceCard key={x.id} />,
         )}
       </div>
     </li>
   );
 }
 
-export default FavoritesLocationsComponent;
+export default FavoritesLocations;

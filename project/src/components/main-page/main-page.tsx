@@ -1,6 +1,6 @@
-import MainOfferCardComponent from '../main-offer-card-component/main-offer-card-component';
-import MainLocationsComponent from '../main-locations-component/main-locations-component';
-import HeaderComponent from '../header-component/header-component';
+import MainOfferCard from '../main-offer-card/main-offer-card';
+import MainLocations from '../main-locations/main-locations';
+import Header from '../header/header';
 import { getFakeData } from '../../utils/common';
 
 type MainPageProps = {
@@ -16,10 +16,10 @@ function MainPage(props: MainPageProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
-      <HeaderComponent />
+      <Header />
 
       <main className="page__main page__main--index">
-        <MainLocationsComponent />
+        <MainLocations />
 
         <div className="cities">
           <div className="cities__places-container container">
@@ -44,7 +44,7 @@ function MainPage(props: MainPageProps): JSX.Element {
               <div className="cities__places-list places__list tabs__content">
 
                 {offers.map((x) =>
-                  <MainOfferCardComponent key={x.id} />,
+                  <MainOfferCard key={x.id} />,
                 )}
 
               </div>

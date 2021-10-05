@@ -1,7 +1,7 @@
-import OfferNearPlaceCardComponent from '../offer-near-place-card-component/offer-near-place-card-component';
+import OfferNearPlaceCard from '../offer-near-place-card/offer-near-place-card';
 import { getFakeData } from '../../utils/common';
 
-function OfferNearPlacesComponent(): JSX.Element {
+function OfferNearPlaces(): JSX.Element {
 
   const places = getFakeData(3);
 
@@ -12,7 +12,7 @@ function OfferNearPlacesComponent(): JSX.Element {
         <div className="near-places__list places__list">
 
           {places.map((x) =>
-            <OfferNearPlaceCardComponent key={x.id} />,
+            <OfferNearPlaceCard key={x.id} />,
           )}
 
         </div>
@@ -21,4 +21,4 @@ function OfferNearPlacesComponent(): JSX.Element {
   );
 }
 
-export default OfferNearPlacesComponent;
+export default OfferNearPlaces;

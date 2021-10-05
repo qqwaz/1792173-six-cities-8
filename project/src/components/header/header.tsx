@@ -1,8 +1,8 @@
-type HeaderComponentProps = {
+type HeaderProps = {
   showNavigation?: boolean;
 }
 
-function HeaderComponent(props : HeaderComponentProps): JSX.Element {
+function Header(props : HeaderProps): JSX.Element {
   const {
     showNavigation = true,
   } = props;
@@ -39,4 +39,4 @@ function HeaderComponent(props : HeaderComponentProps): JSX.Element {
   );
 }
 
-export default HeaderComponent;
+export default Header;

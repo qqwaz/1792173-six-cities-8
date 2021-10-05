@@ -1,17 +1,17 @@
-import HeaderComponent from '../header-component/header-component';
-import OfferGalleryComponent from '../offer-gallery-component/offer-gallery-component';
-import OfferNearPlacesComponent from '../offer-near-places-component/offer-near-places-component';
-import OfferReviewsComponent from '../offer-reviews-component/offer-reviews-component';
+import Header from '../header/header';
+import OfferGallery from '../offer-gallery/offer-gallery';
+import OfferNearPlaces from '../offer-near-places/offer-near-places';
+import OfferReviews from '../offer-reviews/offer-reviews';
 
 function OfferPage(): JSX.Element {
   return (
     <div className="page">
-      <HeaderComponent />
+      <Header />
 
       <main className="page__main page__main--property">
         <section className="property">
 
-          <OfferGalleryComponent />
+          <OfferGallery />
 
           <div className="property__container container">
             <div className="property__wrapper">
@@ -109,14 +109,14 @@ function OfferPage(): JSX.Element {
                 </div>
               </div>
 
-              <OfferReviewsComponent />
+              <OfferReviews />
 
             </div>
           </div>
           <section className="property__map map"></section>
         </section>
 
-        <OfferNearPlacesComponent />
+        <OfferNearPlaces />
 
       </main>
     </div>

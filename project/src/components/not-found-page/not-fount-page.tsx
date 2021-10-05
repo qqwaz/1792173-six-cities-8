@@ -1,10 +1,10 @@
-import HeaderComponent from '../header-component/header-component';
+import Header from '../header/header';
 
 function NotFoundPage(): JSX.Element {
   return (
 
     <div className="page page--favorites-empty">
-      <HeaderComponent />
+      <Header />
 
       <main className="page__main page__main--favorites page__main--favorites-empty">
         <div className="page__favorites-container container">

@@ -1,16 +1,15 @@
-function FavoritesPlaceCardComponent(): JSX.Element {
-
+function OfferNearPlaceCard(): JSX.Element {
   return (
-    <article className="favorites__card place-card">
-      <div className="favorites__image-wrapper place-card__image-wrapper">
+    <article className="near-places__card place-card">
+      <div className="near-places__image-wrapper place-card__image-wrapper">
         <a href="/">
-          <img className="place-card__image" src="img/apartment-small-03.jpg" width="150" height="110" alt="Place" />
+          <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place" />
         </a>
       </div>
-      <div className="favorites__card-info place-card__info">
+      <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;180</b>
+            <b className="place-card__price-value">&euro;80</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
@@ -22,17 +21,17 @@ function FavoritesPlaceCardComponent(): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '100%'}}></span>
+            <span style={{width: '80%'}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="/">Nice, cozy, warm big bed apartment</a>
+          <a href="/">Wood and stone place</a>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">Private room</p>
       </div>
     </article>
   );
 }
 
-export default FavoritesPlaceCardComponent;
+export default OfferNearPlaceCard;

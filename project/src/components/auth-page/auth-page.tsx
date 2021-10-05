@@ -1,9 +1,9 @@
-import HeaderComponent from '../header-component/header-component';
+import Header from '../header/header';
 
 function AuthPage(): JSX.Element {
   return (
     <div className="page page--gray page--login">
-      <HeaderComponent showNavigation={false} />
+      <Header showNavigation={false} />
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">

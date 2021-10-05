@@ -1,6 +1,6 @@
 import { getFakeData } from '../../utils/common';
 
-function OfferGalleryComponent(): JSX.Element {
+function OfferGallery(): JSX.Element {
 
   const pics = getFakeData(5);
 
@@ -18,4 +18,4 @@ function OfferGalleryComponent(): JSX.Element {
   );
 }
 
-export default OfferGalleryComponent;
+export default OfferGallery;

@@ -1,5 +1,5 @@
-import HeaderComponent from '../header-component/header-component';
-import FavoritesLocationsComponent from '../favorites-locations-component/favorites-locations-component';
+import Header from '../header/header';
+import FavoritesLocations from '../favorites-locations/favorites-locations';
 import { getFakeData } from '../../utils/common';
 
 function FavoritesPage(): JSX.Element {
@@ -8,7 +8,7 @@ function FavoritesPage(): JSX.Element {
 
   return (
     <div className="page">
-      <HeaderComponent />
+      <Header />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
@@ -17,7 +17,7 @@ function FavoritesPage(): JSX.Element {
             <ul className="favorites__list">
 
               {locations.map((x) =>
-                <FavoritesLocationsComponent key={x.id} />,
+                <FavoritesLocations key={x.id} />,
               )}
 
             </ul>

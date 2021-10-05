@@ -1,4 +1,4 @@
-function OfferReviewsComponent(): JSX.Element {
+function OfferReviews(): JSX.Element {
   return (
     <section className="property__reviews reviews">
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
@@ -76,4 +76,4 @@ function OfferReviewsComponent(): JSX.Element {
   );
 }
 
-export default OfferReviewsComponent;
+export default OfferReviews;
