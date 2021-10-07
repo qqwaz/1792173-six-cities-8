@@ -1,9 +1,10 @@
-import FavoritesPlaceCard from '../favorites-place-card/favorites-place-card';
-import { getFakeData } from '../../utils/common';
+import PlaceCard from '../place-card/place-card';
+import { PlaceCardComponentVariants } from '../../const';
+import { getFakeData } from '../../utils';
 
 function FavoritesLocations(): JSX.Element {
 
-  const places = getFakeData(5);
+  const places = getFakeData(2);
 
   return (
     <li className="favorites__locations-items">
@@ -15,9 +16,8 @@ function FavoritesLocations(): JSX.Element {
         </div>
       </div>
       <div className="favorites__places">
-
         {places.map((x) =>
-          <FavoritesPlaceCard key={x.id} />,
+          <PlaceCard key={x.id} variant={PlaceCardComponentVariants.Favorites} />,
         )}
       </div>
     </li>

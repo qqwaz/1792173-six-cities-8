@@ -1,5 +1,6 @@
-import OfferNearPlaceCard from '../offer-near-place-card/offer-near-place-card';
-import { getFakeData } from '../../utils/common';
+import PlaceCard from '../place-card/place-card';
+import { PlaceCardComponentVariants } from '../../const';
+import { getFakeData } from '../../utils';
 
 function OfferNearPlaces(): JSX.Element {
 
@@ -10,11 +11,9 @@ function OfferNearPlaces(): JSX.Element {
       <section className="near-places places">
         <h2 className="near-places__title">Other places in the neighbourhood</h2>
         <div className="near-places__list places__list">
-
           {places.map((x) =>
-            <OfferNearPlaceCard key={x.id} />,
+            <PlaceCard key={x.id} variant={PlaceCardComponentVariants.NearPlace} />,
           )}
-
         </div>
       </section>
     </div>
