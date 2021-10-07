@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Header from '../header/header';
 import FavoritesLocations from '../favorites-locations/favorites-locations';
 import FavoritesEmpty from '../favorites-empty/favorites-empty';
@@ -29,9 +30,9 @@ function FavoritesPage(): JSX.Element {
           </main>
         )}
       <footer className="footer container">
-        <a className="footer__logo-link" href="/">
+        <Link className="footer__logo-link" to="/">
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-        </a>
+        </Link>
       </footer>
     </div>
   );

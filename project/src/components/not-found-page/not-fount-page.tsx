@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 import Header from '../header/header';
 
 function NotFoundPage(): JSX.Element {
@@ -11,9 +13,9 @@ function NotFoundPage(): JSX.Element {
             <h1 className="visually-hidden">Page not found</h1>
             <div className="favorites__status-wrapper">
               <b className="favorites__status">404: Page not found.</b>
-              <a className="favorites__status-description" href="/">
+              <Link className="favorites__status-description" to={AppRoute.Main}>
                 <p style={{textDecoration: 'underline'}}>Go to the main page</p>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

@@ -1,3 +1,16 @@
+export enum AppRoute {
+  Main = '/',
+  Auth = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer/:id',
+}
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
 export const Cities = [
   {
     name: 'Paris',
@@ -40,27 +53,27 @@ export const Rating = [
     title: 'terribly',
   }] as const;
 
-export const SortTypes = {
+export const SortType = {
   Popular: 'Popular',
   ToHigh: 'ToHigh',
   ToLow: 'ToLow',
   TopFirst: 'TopFirst',
 } as const;
 
-export const SortTypeTitles = {
-  [SortTypes.Popular]: 'Popular',
-  [SortTypes.ToHigh]: 'Price: low to high',
-  [SortTypes.ToLow]: 'Price: high to low',
-  [SortTypes.TopFirst]: 'Top rated first',
+export const SortTypeTitle = {
+  [SortType.Popular]: 'Popular',
+  [SortType.ToHigh]: 'Price: low to high',
+  [SortType.ToLow]: 'Price: high to low',
+  [SortType.TopFirst]: 'Top rated first',
 } as const;
 
-export enum RatingComponentVariants {
+export enum RatingComponentVariant {
   Review,
   PlaceCard,
   Property,
 }
 
-export enum PlaceCardComponentVariants {
+export enum PlaceCardComponentVariant {
   Favorites,
   NearPlace,
   Main,

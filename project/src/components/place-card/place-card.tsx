@@ -1,8 +1,8 @@
 import Rating from '../rating/rating';
-import { RatingComponentVariants, PlaceCardComponentVariants } from '../../const';
+import { RatingComponentVariant, PlaceCardComponentVariant } from '../../const';
 
 type PlaceCardProps = {
-  variant: PlaceCardComponentVariants,
+  variant: PlaceCardComponentVariant,
 }
 
 function PlaceCard(props: PlaceCardProps): JSX.Element {
@@ -13,33 +13,33 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
   const isPremium = true;
 
   const ArticleStyle = {
-    [PlaceCardComponentVariants.Favorites]: 'favorites__card place-card',
-    [PlaceCardComponentVariants.NearPlace]: 'near-places__card place-card',
-    [PlaceCardComponentVariants.Main]: 'cities__place-card place-card',
+    [PlaceCardComponentVariant.Favorites]: 'favorites__card place-card',
+    [PlaceCardComponentVariant.NearPlace]: 'near-places__card place-card',
+    [PlaceCardComponentVariant.Main]: 'cities__place-card place-card',
   };
 
   const ImgWrapperStyle = {
-    [PlaceCardComponentVariants.Favorites]: 'favorites__image-wrapper place-card__image-wrapper',
-    [PlaceCardComponentVariants.NearPlace]: 'near-places__image-wrapper place-card__image-wrapper',
-    [PlaceCardComponentVariants.Main]: 'cities__image-wrapper place-card__image-wrapper',
+    [PlaceCardComponentVariant.Favorites]: 'favorites__image-wrapper place-card__image-wrapper',
+    [PlaceCardComponentVariant.NearPlace]: 'near-places__image-wrapper place-card__image-wrapper',
+    [PlaceCardComponentVariant.Main]: 'cities__image-wrapper place-card__image-wrapper',
   };
 
   const InfoStyle = {
-    [PlaceCardComponentVariants.Favorites]: 'favorites__card-info place-card__info',
-    [PlaceCardComponentVariants.NearPlace]: 'place-card__info',
-    [PlaceCardComponentVariants.Main]: 'place-card__info',
+    [PlaceCardComponentVariant.Favorites]: 'favorites__card-info place-card__info',
+    [PlaceCardComponentVariant.NearPlace]: 'place-card__info',
+    [PlaceCardComponentVariant.Main]: 'place-card__info',
   };
 
   const ImgSize = {
-    [PlaceCardComponentVariants.Favorites]: {
+    [PlaceCardComponentVariant.Favorites]: {
       width: 150,
       height: 110,
     },
-    [PlaceCardComponentVariants.NearPlace]: {
+    [PlaceCardComponentVariant.NearPlace]: {
       width: 260,
       height: 200,
     },
-    [PlaceCardComponentVariants.Main]: {
+    [PlaceCardComponentVariant.Main]: {
       width: 260,
       height: 200,
     },
@@ -69,7 +69,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
             <span className="visually-hidden">In bookmarks</span>
           </button>
         </div>
-        <Rating variant={RatingComponentVariants.PlaceCard} value={3.6} />
+        <Rating variant={RatingComponentVariant.PlaceCard} value={3.6} />
         <h2 className="place-card__name">
           <a href="/">Wood and stone place</a>
         </h2>

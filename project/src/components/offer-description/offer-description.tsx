@@ -1,4 +1,4 @@
-import { RatingComponentVariants } from '../../const';
+import { RatingComponentVariant } from '../../const';
 import Rating from '../rating/rating';
 import { getFakeData } from '../../utils';
 
@@ -22,7 +22,7 @@ function OfferDescription(): JSX.Element {
           <span className="visually-hidden">To bookmarks</span>
         </button>
       </div>
-      <Rating variant={RatingComponentVariants.Property} value={2.8} />
+      <Rating variant={RatingComponentVariant.Property} value={2.8} />
       <ul className="property__features">
         <li className="property__feature property__feature--entire">
           Apartment

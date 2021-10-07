@@ -1,7 +1,7 @@
-import { RatingComponentVariants } from '../../const';
+import { RatingComponentVariant } from '../../const';
 
 type RatingProps = {
-  variant: RatingComponentVariants,
+  variant: RatingComponentVariant,
   value: number,
 }
 
@@ -14,9 +14,9 @@ function Rating(props: RatingProps): JSX.Element {
   const starsFillWidth = `${Math.round(value) * 20}%`;
 
   const Prefix = {
-    [RatingComponentVariants.PlaceCard]: 'place-card',
-    [RatingComponentVariants.Review]: 'reviews',
-    [RatingComponentVariants.Property]: 'property',
+    [RatingComponentVariant.PlaceCard]: 'place-card',
+    [RatingComponentVariant.Review]: 'reviews',
+    [RatingComponentVariant.Property]: 'property',
   };
 
   return (
@@ -25,7 +25,7 @@ function Rating(props: RatingProps): JSX.Element {
         <span style={{width: starsFillWidth}}></span>
         <span className="visually-hidden">Rating</span>
       </div>
-      {variant === RatingComponentVariants.Property &&
+      {variant === RatingComponentVariant.Property &&
         <span className="property__rating-value rating__value">{value}</span>}
     </div>
   );

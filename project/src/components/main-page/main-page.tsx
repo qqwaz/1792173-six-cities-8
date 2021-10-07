@@ -3,7 +3,7 @@ import MainLocations from '../main-locations/main-locations';
 import Header from '../header/header';
 import Sorting from '../sorting/sorting';
 import MainEmpty from '../main-empty/main-empty';
-import { PlaceCardComponentVariants } from '../../const';
+import { PlaceCardComponentVariant } from '../../const';
 import { getFakeData } from '../../utils';
 
 type MainPageProps = {
@@ -35,7 +35,7 @@ function MainPage(props: MainPageProps): JSX.Element {
                   <Sorting />
                   <div className="cities__places-list places__list tabs__content">
                     {offers.map((x) =>
-                      <PlaceCard key={x.id} variant={PlaceCardComponentVariants.Main} />,
+                      <PlaceCard key={x.id} variant={PlaceCardComponentVariant.Main} />,
                     )}
                   </div>
                 </section>

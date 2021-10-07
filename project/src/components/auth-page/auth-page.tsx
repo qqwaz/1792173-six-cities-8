@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import Header from '../header/header';
-import { Cities } from '../../const';
+import { AppRoute, Cities } from '../../const';
 
 function AuthPage(): JSX.Element {
 
@@ -7,7 +8,7 @@ function AuthPage(): JSX.Element {
 
   return (
     <div className="page page--gray page--login">
-      <Header showNavigation={false} />
+      <Header />
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">
@@ -27,9 +28,9 @@ function AuthPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="/">
+              <Link className="locations__item-link" to={AppRoute.Main}>
                 <span>{randomCity.name}</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

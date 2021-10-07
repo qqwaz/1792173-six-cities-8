@@ -1,6 +1,6 @@
 import OfferReviewForm from '../offer-review-form/offer-review-form';
 import Rating from '../rating/rating';
-import { RatingComponentVariants } from '../../const';
+import { RatingComponentVariant } from '../../const';
 import { getFakeData } from '../../utils';
 
 function OfferReviews(): JSX.Element {
@@ -22,7 +22,7 @@ function OfferReviews(): JSX.Element {
               </span>
             </div>
             <div className="reviews__info">
-              <Rating variant={RatingComponentVariants.Review} value={3.2} />
+              <Rating variant={RatingComponentVariant.Review} value={3.2} />
               <p className="reviews__text">
                 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
               </p>
