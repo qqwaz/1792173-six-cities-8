@@ -9,6 +9,39 @@ type PlaceCardProps = {
   setActiveOfferId?: (id: number | undefined) => void,
 }
 
+const ArticleStyle = {
+  [PlaceCardComponentVariant.Favorites]: 'favorites__card place-card',
+  [PlaceCardComponentVariant.NearPlace]: 'near-places__card place-card',
+  [PlaceCardComponentVariant.Main]: 'cities__place-card place-card',
+};
+
+const ImgWrapperStyle = {
+  [PlaceCardComponentVariant.Favorites]: 'favorites__image-wrapper place-card__image-wrapper',
+  [PlaceCardComponentVariant.NearPlace]: 'near-places__image-wrapper place-card__image-wrapper',
+  [PlaceCardComponentVariant.Main]: 'cities__image-wrapper place-card__image-wrapper',
+};
+
+const InfoStyle = {
+  [PlaceCardComponentVariant.Favorites]: 'favorites__card-info place-card__info',
+  [PlaceCardComponentVariant.NearPlace]: 'place-card__info',
+  [PlaceCardComponentVariant.Main]: 'place-card__info',
+};
+
+const ImgSize = {
+  [PlaceCardComponentVariant.Favorites]: {
+    width: 150,
+    height: 110,
+  },
+  [PlaceCardComponentVariant.NearPlace]: {
+    width: 260,
+    height: 200,
+  },
+  [PlaceCardComponentVariant.Main]: {
+    width: 260,
+    height: 200,
+  },
+};
+
 function PlaceCard(props: PlaceCardProps): JSX.Element {
   const {
     variant,
@@ -27,39 +60,6 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
       setActiveOfferId(undefined);
     }
   }
-
-  const ArticleStyle = {
-    [PlaceCardComponentVariant.Favorites]: 'favorites__card place-card',
-    [PlaceCardComponentVariant.NearPlace]: 'near-places__card place-card',
-    [PlaceCardComponentVariant.Main]: 'cities__place-card place-card',
-  };
-
-  const ImgWrapperStyle = {
-    [PlaceCardComponentVariant.Favorites]: 'favorites__image-wrapper place-card__image-wrapper',
-    [PlaceCardComponentVariant.NearPlace]: 'near-places__image-wrapper place-card__image-wrapper',
-    [PlaceCardComponentVariant.Main]: 'cities__image-wrapper place-card__image-wrapper',
-  };
-
-  const InfoStyle = {
-    [PlaceCardComponentVariant.Favorites]: 'favorites__card-info place-card__info',
-    [PlaceCardComponentVariant.NearPlace]: 'place-card__info',
-    [PlaceCardComponentVariant.Main]: 'place-card__info',
-  };
-
-  const ImgSize = {
-    [PlaceCardComponentVariant.Favorites]: {
-      width: 150,
-      height: 110,
-    },
-    [PlaceCardComponentVariant.NearPlace]: {
-      width: 260,
-      height: 200,
-    },
-    [PlaceCardComponentVariant.Main]: {
-      width: 260,
-      height: 200,
-    },
-  };
 
   return (
     <article className={ArticleStyle[variant]}

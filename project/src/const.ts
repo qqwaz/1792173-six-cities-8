@@ -80,6 +80,11 @@ export enum PlaceCardComponentVariant {
   Main,
 }
 
+export enum MapComponentVariant {
+  Main,
+  Offer,
+}
+
 export enum OfferType {
   Apartment = 'apartment',
   Room = 'room',

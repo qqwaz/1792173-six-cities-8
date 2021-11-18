@@ -5,7 +5,7 @@ import Header from '../header/header';
 import Sorting from '../sorting/sorting';
 import MainEmpty from '../main-empty/main-empty';
 import Map from '../map/map';
-import { PlaceCardComponentVariant } from '../../const';
+import { MapComponentVariant, PlaceCardComponentVariant } from '../../const';
 import { Offer } from '../../types/offer';
 
 type MainPageProps = {
@@ -48,7 +48,7 @@ function MainPage(props: MainPageProps): JSX.Element {
                   </div>
                 </section>
                 <div className="cities__right-section">
-                  <Map location={location} offers={offers} activeOfferId={activeOfferId}/>
+                  <Map variant={MapComponentVariant.Main} location={location} offers={offers} activeOfferId={activeOfferId}/>
                 </div>
               </div>
             )}

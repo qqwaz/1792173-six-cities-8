@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, CSSProperties } from 'react';
+import React, { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Offer, Location } from '../../types/offer';
-import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
+import { MapComponentVariant, URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import useMap from '../../hooks/useMap';
 
 type MapProps = {
+  variant: MapComponentVariant,
   location: Location,
   offers: Offer[],
   activeOfferId: number | undefined,
@@ -23,9 +24,19 @@ const currentCustomIcon = leaflet.icon({
   iconAnchor: [20, 40],
 });
 
-const mapStyle: CSSProperties = {height: '500px'};
+const mapStyle = {
+  [MapComponentVariant.Main]: 'cities__map',
+  [MapComponentVariant.Offer]: 'property__map',
+};
 
-function Map({location, offers, activeOfferId}: MapProps): JSX.Element {
+function Map(props: MapProps): JSX.Element {
+  const {
+    variant,
+    location,
+    offers,
+    activeOfferId,
+  } = props;
+
   const mapRef = useRef(null);
   const map = useMap(mapRef, location);
 
@@ -47,7 +58,7 @@ function Map({location, offers, activeOfferId}: MapProps): JSX.Element {
     }
   }, [map, offers, activeOfferId]);
 
-  return <section className="cities__map map" style={mapStyle} ref={mapRef}></section>;
+  return <section className={`map ${mapStyle[variant]}`} ref={mapRef}></section>;
 }
 
 export default Map;

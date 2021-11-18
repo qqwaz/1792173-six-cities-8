@@ -4,14 +4,24 @@ import OfferGallery from '../offer-gallery/offer-gallery';
 import OfferNearPlaces from '../offer-near-places/offer-near-places';
 import OfferReviews from '../offer-reviews/offer-reviews';
 import OfferDescription from '../offer-description/offer-description';
+import Map from '../map/map';
+import { Offer } from '../../types/offer';
 import { getOffer } from '../../utils';
-import { AppRoute } from '../../const';
+import { AppRoute, MapComponentVariant } from '../../const';
+
+type OfferPageProps = {
+  offers: Offer[],
+}
 
 type MatchParams = {
   id: string,
 }
 
-function OfferPage(): JSX.Element {
+function OfferPage(props: OfferPageProps): JSX.Element {
+  const {
+    offers,
+  } = props;
+
   const match = useRouteMatch<MatchParams>();
   const offerId = match.params.id;
   const offer = getOffer(offerId);
@@ -19,6 +29,8 @@ function OfferPage(): JSX.Element {
   if (!offer) {
     return <Redirect to={AppRoute.NotFound} />;
   }
+
+  const nearest = offers.slice(0, 3);
 
   return (
     <div className="page">
@@ -32,9 +44,9 @@ function OfferPage(): JSX.Element {
               <OfferReviews offerId={offerId} />
             </div>
           </div>
-          <section className="property__map map"></section>
+          <Map variant={MapComponentVariant.Offer} location={offer.city.location} offers={nearest} activeOfferId={offer.id}/>
         </section>
-        <OfferNearPlaces offerId={offerId} />
+        <OfferNearPlaces offers={nearest} />
       </main>
     </div>
   );

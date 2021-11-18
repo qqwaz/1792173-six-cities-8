@@ -1,24 +1,22 @@
 import PlaceCard from '../place-card/place-card';
 import { PlaceCardComponentVariant } from '../../const';
-import { Offers } from '../../mocks/offers';
+import { Offer } from '../../types/offer';
 
 type OfferNearPlacesProps = {
-  offerId: string,
+  offers: Offer[],
 }
 
 function OfferNearPlaces(props: OfferNearPlacesProps): JSX.Element {
   const {
-    offerId,
+    offers,
   } = props;
-
-  const places = Offers.slice(0, 3);
 
   return (
     <div className="container">
       <section className="near-places places">
         <h2 className="near-places__title">Other places in the neighbourhood</h2>
         <div className="near-places__list places__list">
-          {places.map((offer) =>
+          {offers.map((offer) =>
             <PlaceCard key={offer.id} variant={PlaceCardComponentVariant.NearPlace} offer={offer} />,
           )}
         </div>
