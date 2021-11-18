@@ -1,25 +1,31 @@
 import { Link } from 'react-router-dom';
 import PlaceCard from '../place-card/place-card';
 import { AppRoute, PlaceCardComponentVariant } from '../../const';
-import { getFakeData } from '../../utils';
+import { Offer } from '../../types/offer';
 
-function FavoritesLocations(): JSX.Element {
+type FavoritesLocationsProps = {
+  location: [string, Offer[]],
+}
 
-  const places = getFakeData(2);
+function FavoritesLocations(props: FavoritesLocationsProps): JSX.Element {
+  const [
+    city,
+    offers
+  ] = props.location;
 
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <Link className="locations__item-link" to={AppRoute.Main}>
-            <span>Amsterdam</span>
+            <span>{city}</span>
           </Link>
         </div>
       </div>
       <div className="favorites__places">
-        {places.map((x) =>
-          <PlaceCard key={x.id} variant={PlaceCardComponentVariant.Favorites} />,
-        )}
+        {offers.map((offer) => (
+          <PlaceCard key={offer.id} variant={PlaceCardComponentVariant.Favorites} offer={offer} />
+        ))}
       </div>
     </li>
   );

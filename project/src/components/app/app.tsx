@@ -6,30 +6,33 @@ import OfferPage from '../offer-page/offer-page';
 import NotFoundPage from '../not-found-page/not-fount-page';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../private-route/private-route';
+import { Offer } from '../../types/offer';
 
 type AppProps = {
-  offersCount: number;
+  offers: Offer[];
 }
 
 function App(props: AppProps): JSX.Element {
   const {
-    offersCount = 5,
+    offers,
   } = props;
+
+  const favorites = offers.filter((x) => x.isFavorite);
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <MainPage offersCount={offersCount} />
+          <MainPage offers={offers} />
         </Route>
         <Route exact path={AppRoute.Auth}>
           <AuthPage />
         </Route>
         <PrivateRoute exact path={AppRoute.Favorites}
-          render={() => <FavoritesPage />}
-          authorizationStatus={AuthorizationStatus.NoAuth}
+          render={() => <FavoritesPage offers={favorites} />}
+          authorizationStatus={AuthorizationStatus.Auth}
         />
-        <Route exact path={AppRoute.Offer}>
+        <Route exact path={`${AppRoute.Offer}/:id`}>
           <OfferPage />
         </Route>
         <Route>

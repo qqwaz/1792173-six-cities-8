@@ -2,13 +2,22 @@ import { Link } from 'react-router-dom';
 import Header from '../header/header';
 import FavoritesLocations from '../favorites-locations/favorites-locations';
 import FavoritesEmpty from '../favorites-empty/favorites-empty';
-import { getFakeData } from '../../utils';
+import { Offer } from '../../types/offer';
+import { groupOffersByCity } from '../../utils';
+import { AppRoute } from '../../const';
 
-function FavoritesPage(): JSX.Element {
+type FavoritesPageProps = {
+  offers: Offer[],
+}
 
-  const locations = getFakeData(3);
+function FavoritesPage(props: FavoritesPageProps): JSX.Element {
+  const {
+    offers,
+  } = props;
 
-  const isEmpty = false;
+  const isEmpty = !offers.length;
+
+  const locations = groupOffersByCity(offers);
 
   return (
     <div className="page">
@@ -21,16 +30,16 @@ function FavoritesPage(): JSX.Element {
               <section className="favorites">
                 <h1 className="favorites__title">Saved listing</h1>
                 <ul className="favorites__list">
-                  {locations.map((x) =>
-                    <FavoritesLocations key={x.id} />,
-                  )}
+                  {Object.entries(locations).map((location) => (
+                    <FavoritesLocations key={location[0]} location={location} />
+                  ))}
                 </ul>
               </section>
             </div>
           </main>
         )}
       <footer className="footer container">
-        <Link className="footer__logo-link" to="/">
+        <Link className="footer__logo-link" to={AppRoute.Main}>
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
         </Link>
       </footer>

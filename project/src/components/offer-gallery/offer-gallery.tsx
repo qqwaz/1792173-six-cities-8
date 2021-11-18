@@ -1,15 +1,21 @@
-import { getFakeData } from '../../utils';
+import { OfferImages } from '../../types/offer';
+import { OFFER_GALLERY_MAX_AMOUNT } from '../../const';
 
-function OfferGallery(): JSX.Element {
+type OfferGalleryProps = {
+  pics: OfferImages,
+}
 
-  const pics = getFakeData(5);
+function OfferGallery(props: OfferGalleryProps): JSX.Element {
+  const {
+    pics,
+   } = props;
 
   return (
     <div className="property__gallery-container container">
       <div className="property__gallery">
-        {pics.map((x) => (
-          <div key={x.id} className="property__image-wrapper">
-            <img className="property__image" src="img/room.jpg" alt="Studio" />
+        {pics.slice(0, OFFER_GALLERY_MAX_AMOUNT).map((pic) => (
+          <div key={pic} className="property__image-wrapper">
+            <img className="property__image" src={pic} alt="Studio" />
           </div>))}
       </div>
     </div>

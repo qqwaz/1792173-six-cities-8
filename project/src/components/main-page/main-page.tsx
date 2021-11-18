@@ -1,23 +1,24 @@
+import { useState } from 'react';
 import PlaceCard from '../place-card/place-card';
 import MainLocations from '../main-locations/main-locations';
 import Header from '../header/header';
 import Sorting from '../sorting/sorting';
 import MainEmpty from '../main-empty/main-empty';
 import { PlaceCardComponentVariant } from '../../const';
-import { getFakeData } from '../../utils';
+import { Offer } from '../../types/offer';
 
 type MainPageProps = {
-  offersCount: number;
+  offers: Offer[],
 }
 
 function MainPage(props: MainPageProps): JSX.Element {
   const {
-    offersCount,
+    offers,
   } = props;
 
-  const offers = getFakeData(offersCount);
+  const isEmpty = !offers.length;
 
-  const isEmpty = false;
+  const [, setActiveOffer] = useState<number | null>(null);
 
   return (
     <div className="page page--gray page--main">
@@ -34,9 +35,13 @@ function MainPage(props: MainPageProps): JSX.Element {
                   <b className="places__found">312 places to stay in Amsterdam</b>
                   <Sorting />
                   <div className="cities__places-list places__list tabs__content">
-                    {offers.map((x) =>
-                      <PlaceCard key={x.id} variant={PlaceCardComponentVariant.Main} />,
-                    )}
+                    {offers.map((offer) => (
+                      <PlaceCard key={offer.id}
+                        variant={PlaceCardComponentVariant.Main}
+                        offer={offer}
+                        onHover={setActiveOffer}
+                      />
+                    ))}
                   </div>
                 </section>
                 <div className="cities__right-section">

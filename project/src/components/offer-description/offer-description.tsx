@@ -1,49 +1,58 @@
 import { RatingComponentVariant } from '../../const';
 import Rating from '../rating/rating';
-import { getFakeData } from '../../utils';
+import { Offer } from '../../types/offer.js';
 
-function OfferDescription(): JSX.Element {
+type OfferDescriptionProps = {
+  offer: Offer,
+}
 
-  const insideItems = getFakeData(10);
+function OfferDescription(props: OfferDescriptionProps): JSX.Element {
+  const {
+    offer,
+  } = props;
+
+  const isFavoriteStyle = offer.isFavorite ? 'property__bookmark-button--active' : '';
+  const isProStyle = offer.host.isPro ? 'property__avatar-wrapper--pro' : '';
 
   return (
     <>
-      <div className="property__mark">
-        <span>Premium</span>
-      </div>
+      {offer.isPremium &&
+        <div className="property__mark">
+          <span>Premium</span>
+        </div>}
       <div className="property__name-wrapper">
         <h1 className="property__name">
-          Beautiful &amp; luxurious studio at great location
+          {offer.title}
         </h1>
-        <button className="property__bookmark-button button" type="button">
+        <button className={`property__bookmark-button button ${isFavoriteStyle}`} type="button">
           <svg className="property__bookmark-icon" width="31" height="33">
             <use xlinkHref="#icon-bookmark"></use>
           </svg>
           <span className="visually-hidden">To bookmarks</span>
         </button>
       </div>
-      <Rating variant={RatingComponentVariant.Property} value={2.8} />
+      <Rating variant={RatingComponentVariant.Property} value={offer.rating} />
       <ul className="property__features">
         <li className="property__feature property__feature--entire">
-          Apartment
+          {offer.type}
         </li>
         <li className="property__feature property__feature--bedrooms">
-          3 Bedrooms
+          {offer.bedrooms}
         </li>
         <li className="property__feature property__feature--adults">
-          Max 4 adults
+          {offer.maxAdults}
         </li>
       </ul>
       <div className="property__price">
-        <b className="property__price-value">&euro;120</b>
+        <b className="property__price-value">&euro;{offer.price}</b>
         <span className="property__price-text">&nbsp;night</span>
       </div>
       <div className="property__inside">
         <h2 className="property__inside-title">What&apos;s inside</h2>
         <ul className="property__inside-list">
-          {insideItems.map((x) => (
-            <li key={x.id} className="property__inside-item">
-              Wi-Fi
+          {offer.goods.map((x) => (
+            <li key={x} className="property__inside-item">
+              {x}
             </li>
           ))}
         </ul>
@@ -52,21 +61,19 @@ function OfferDescription(): JSX.Element {
         <h2 className="property__host-title">Meet the host</h2>
         <div className="property__host-user user">
           <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-            <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
+            <img className={`property__avatar user__avatar ${isProStyle}`} src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
           </div>
           <span className="property__user-name">
-            Angelina
+            {offer.host.name}
           </span>
-          <span className="property__user-status">
-            Pro
-          </span>
+          {offer.host.isPro &&
+            <span className="property__user-status">
+              Pro
+            </span>}
         </div>
         <div className="property__description">
           <p className="property__text">
-            A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-          </p>
-          <p className="property__text">
-            An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
+            {offer.description}
           </p>
         </div>
       </div>

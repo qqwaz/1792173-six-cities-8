@@ -3,6 +3,8 @@ import { SortType, SortTypeTitle } from '../../const';
 function Sorting(): JSX.Element {
 
   const currentSort = SortType.ToHigh;
+  const opened = false;
+  const openedStyle = opened ? ' places__options--opened' : '';
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -13,7 +15,7 @@ function Sorting(): JSX.Element {
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className="places__options places__options--custom places__options--opened">
+      <ul className={`places__options places__options--custom ${openedStyle}`}>
         {Object.keys(SortType).map((x) => (
           <li key={x} className={`places__option ${SortType[x as keyof typeof SortType] === currentSort && 'places__option--active'}`} tabIndex={0}>
             {SortTypeTitle[SortType[x as keyof typeof SortType]]}

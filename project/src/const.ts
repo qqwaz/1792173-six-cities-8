@@ -2,7 +2,8 @@ export enum AppRoute {
   Main = '/',
   Auth = '/login',
   Favorites = '/favorites',
-  Offer = '/offer/:id',
+  Offer = '/offer',
+  NotFound = '/oops',
 }
 
 export enum AuthorizationStatus {
@@ -10,6 +11,9 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export const MIN_REVIEW_COMMENT_LENGTH = 50;
+export const MAX_REVIEW_COMMENT_LENGTH = 300;
 
 export const Cities = [
   {
@@ -78,3 +82,19 @@ export enum PlaceCardComponentVariant {
   NearPlace,
   Main,
 }
+
+export enum OfferType {
+  Apartment = 'apartment',
+  Room = 'room',
+  House = 'house',
+  Hotel = 'hotel'
+}
+
+export const OfferTypeTitle: Record<OfferType, string> = {
+  [OfferType.Apartment]: 'Apartment',
+  [OfferType.Room]: 'Private Room',
+  [OfferType.House]: 'House',
+  [OfferType.Hotel]: 'Hotel',
+} as const;
+
+export const OFFER_GALLERY_MAX_AMOUNT = 6;
