@@ -6,17 +6,27 @@ import { Offer } from '../../types/offer';
 type PlaceCardProps = {
   variant: PlaceCardComponentVariant,
   offer: Offer,
-  onHover?: (id: number) => void,
+  setActiveOfferId?: (id: number | undefined) => void,
 }
 
 function PlaceCard(props: PlaceCardProps): JSX.Element {
   const {
     variant,
     offer,
-    onHover,
+    setActiveOfferId,
   } = props;
 
-  const MouseOverHandler = (id: number) => () => onHover ? onHover(id) : null;
+  function MouseOverHandler() {
+    if (setActiveOfferId) {
+      setActiveOfferId(offer.id);
+    }
+  }
+
+  function MouseLeaveHandler() {
+    if (setActiveOfferId) {
+      setActiveOfferId(undefined);
+    }
+  }
 
   const ArticleStyle = {
     [PlaceCardComponentVariant.Favorites]: 'favorites__card place-card',
@@ -52,7 +62,10 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
   };
 
   return (
-    <article className={ArticleStyle[variant]} onMouseOver={MouseOverHandler(offer.id)}>
+    <article className={ArticleStyle[variant]}
+      onMouseOver={MouseOverHandler}
+      onMouseLeave={MouseLeaveHandler}
+    >
       {offer.isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>

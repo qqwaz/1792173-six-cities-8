@@ -4,6 +4,7 @@ import MainLocations from '../main-locations/main-locations';
 import Header from '../header/header';
 import Sorting from '../sorting/sorting';
 import MainEmpty from '../main-empty/main-empty';
+import Map from '../map/map';
 import { PlaceCardComponentVariant } from '../../const';
 import { Offer } from '../../types/offer';
 
@@ -18,7 +19,9 @@ function MainPage(props: MainPageProps): JSX.Element {
 
   const isEmpty = !offers.length;
 
-  const [, setActiveOffer] = useState<number | null>(null);
+  const [activeOfferId, setActiveOfferId] = useState<number | undefined>();
+
+  const location = offers[0]?.city.location;
 
   return (
     <div className="page page--gray page--main">
@@ -39,13 +42,13 @@ function MainPage(props: MainPageProps): JSX.Element {
                       <PlaceCard key={offer.id}
                         variant={PlaceCardComponentVariant.Main}
                         offer={offer}
-                        onHover={setActiveOffer}
+                        setActiveOfferId={setActiveOfferId}
                       />
                     ))}
                   </div>
                 </section>
                 <div className="cities__right-section">
-                  <section className="cities__map map"></section>
+                  <Map location={location} offers={offers} activeOfferId={activeOfferId}/>
                 </div>
               </div>
             )}

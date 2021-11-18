@@ -12,9 +12,6 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const MIN_REVIEW_COMMENT_LENGTH = 50;
-export const MAX_REVIEW_COMMENT_LENGTH = 300;
-
 export const Cities = [
   {
     name: 'Paris',
@@ -97,4 +94,11 @@ export const OfferTypeTitle: Record<OfferType, string> = {
   [OfferType.Hotel]: 'Hotel',
 } as const;
 
-export const OFFER_GALLERY_MAX_AMOUNT = 6;
+export const OFFER_GALLERY_PICTURES_MAX_AMOUNT = 6;
+
+export const MIN_REVIEW_COMMENT_LENGTH = 50;
+export const MAX_REVIEW_COMMENT_LENGTH = 300;
+
+export const URL_MARKER_DEFAULT = '/img/pin.svg';
+export const URL_MARKER_CURRENT = '/img/pin-active.svg';
+

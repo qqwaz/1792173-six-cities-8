@@ -3,7 +3,7 @@ import { User } from './user';
 
 export type OfferImages = string[];
 
-type Location = {
+export type Location = {
   latitude: number,
   longitude: number,
   zoom: number,
