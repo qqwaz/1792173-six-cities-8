@@ -23,7 +23,7 @@ function App(props: AppProps): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <MainPage offers={offers} />
+          <MainPage />
         </Route>
         <Route exact path={AppRoute.Auth}>
           <AuthPage />
@@ -33,7 +33,7 @@ function App(props: AppProps): JSX.Element {
           authorizationStatus={AuthorizationStatus.Auth}
         />
         <Route exact path={`${AppRoute.Offer}/:id`}>
-          <OfferPage offers={offers} />
+          <OfferPage />
         </Route>
         <Route>
           <NotFoundPage />

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import PlaceCard from '../place-card/place-card';
 import MainLocations from '../main-locations/main-locations';
 import Header from '../header/header';
@@ -6,22 +7,26 @@ import Sorting from '../sorting/sorting';
 import MainEmpty from '../main-empty/main-empty';
 import Map from '../map/map';
 import { MapComponentVariant, PlaceCardComponentVariant } from '../../const';
-import { Offer } from '../../types/offer';
+import { State } from '../../types/state';
 
-type MainPageProps = {
-  offers: Offer[],
-}
+const mapStateToProps = ({city, offers}: State) => ({
+  city,
+  offers,
+});
 
-function MainPage(props: MainPageProps): JSX.Element {
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function MainPage(props: PropsFromRedux): JSX.Element {
   const {
+    city,
     offers,
   } = props;
 
   const isEmpty = !offers.length;
 
   const [activeOfferId, setActiveOfferId] = useState<number | undefined>();
-
-  const location = offers[0]?.city.location;
 
   return (
     <div className="page page--gray page--main">
@@ -35,7 +40,7 @@ function MainPage(props: MainPageProps): JSX.Element {
               <div className="cities__places-container container">
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">312 places to stay in Amsterdam</b>
+                  <b className="places__found">{offers?.length} places to stay in {city?.name}</b>
                   <Sorting />
                   <div className="cities__places-list places__list tabs__content">
                     {offers.map((offer) => (
@@ -48,7 +53,7 @@ function MainPage(props: MainPageProps): JSX.Element {
                   </div>
                 </section>
                 <div className="cities__right-section">
-                  <Map variant={MapComponentVariant.Main} location={location} offers={offers} activeOfferId={activeOfferId}/>
+                  <Map variant={MapComponentVariant.Main} activeOfferId={activeOfferId}/>
                 </div>
               </div>
             )}
@@ -58,4 +63,5 @@ function MainPage(props: MainPageProps): JSX.Element {
   );
 }
 
-export default MainPage;
+export { MainPage };
+export default connector(MainPage);

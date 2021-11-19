@@ -1,18 +1,8 @@
 import { OfferType } from '../const';
+import { City } from './city';
+import { Location } from './location';
+import { OfferImages } from './offerImages';
 import { User } from './user';
-
-export type OfferImages = string[];
-
-export type Location = {
-  latitude: number,
-  longitude: number,
-  zoom: number,
-};
-
-type City = {
-  name: string,
-  location: Location,
-};
 
 export type Offer = {
   city: City,

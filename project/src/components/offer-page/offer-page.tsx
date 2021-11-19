@@ -1,3 +1,4 @@
+import { connect, ConnectedProps } from 'react-redux';
 import { useRouteMatch, Redirect } from 'react-router-dom';
 import Header from '../header/header';
 import OfferGallery from '../offer-gallery/offer-gallery';
@@ -5,19 +6,23 @@ import OfferNearPlaces from '../offer-near-places/offer-near-places';
 import OfferReviews from '../offer-reviews/offer-reviews';
 import OfferDescription from '../offer-description/offer-description';
 import Map from '../map/map';
-import { Offer } from '../../types/offer';
 import { getOffer } from '../../utils';
 import { AppRoute, MapComponentVariant } from '../../const';
-
-type OfferPageProps = {
-  offers: Offer[],
-}
+import { State } from '../../types/state';
 
 type MatchParams = {
   id: string,
 }
 
-function OfferPage(props: OfferPageProps): JSX.Element {
+const mapStateToProps = ({offers}: State) => ({
+  offers,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function OfferPage(props: PropsFromRedux): JSX.Element {
   const {
     offers,
   } = props;
@@ -44,7 +49,7 @@ function OfferPage(props: OfferPageProps): JSX.Element {
               <OfferReviews offerId={offerId} />
             </div>
           </div>
-          <Map variant={MapComponentVariant.Offer} location={offer.city.location} offers={nearest} activeOfferId={offer.id}/>
+          <Map variant={MapComponentVariant.Offer} activeOfferId={offer.id}/>
         </section>
         <OfferNearPlaces offers={nearest} />
       </main>
@@ -52,4 +57,5 @@ function OfferPage(props: OfferPageProps): JSX.Element {
   );
 }
 
-export default OfferPage;
+export { OfferPage };
+export default connector(OfferPage);

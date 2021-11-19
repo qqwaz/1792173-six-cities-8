@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from 'react';
-import leaflet from 'leaflet';
+import { connect, ConnectedProps } from 'react-redux';
+import leaflet, { LayerGroup }  from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Offer, Location } from '../../types/offer';
 import { MapComponentVariant, URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import useMap from '../../hooks/useMap';
+import { State } from '../../types/state';
 
 type MapProps = {
   variant: MapComponentVariant,
-  location: Location,
-  offers: Offer[],
   activeOfferId: number | undefined,
 };
 
@@ -29,36 +28,54 @@ const mapStyle = {
   [MapComponentVariant.Offer]: 'property__map',
 };
 
-function Map(props: MapProps): JSX.Element {
+const mapStateToProps = ({city, offers}: State) => ({
+  city,
+  offers,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MapProps;
+
+const markers: LayerGroup = leaflet.layerGroup([]);
+
+function Map(props: ConnectedComponentProps): JSX.Element {
   const {
     variant,
-    location,
+    city,
     offers,
     activeOfferId,
   } = props;
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, location);
+  const map = useMap(mapRef, city.location);
 
   useEffect(() => {
     if (map) {
-      offers.forEach((offer) => {
-        leaflet
-          .marker(
-            {
-              lat: offer.location.latitude,
-              lng: offer.location.longitude,
-            },
-            {
-              icon: offer.id === activeOfferId ? currentCustomIcon : defaultCustomIcon,
-            },
-          )
-          .addTo(map);
-      });
-    }
-  }, [map, offers, activeOfferId]);
+      markers?.clearLayers();
 
-  return <section className={`map ${mapStyle[variant]}`} ref={mapRef}></section>;
+      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
+
+      offers.forEach((offer) => {
+        markers.addLayer(
+          leaflet
+            .marker(
+              {
+                lat: offer.location.latitude,
+                lng: offer.location.longitude,
+              },
+              {
+                icon: offer.id === activeOfferId ? currentCustomIcon : defaultCustomIcon,
+              },
+            ));
+      });
+      markers.addTo(map);
+    }
+  }, [map, city, offers, activeOfferId]);
+
+  return <section className={`${mapStyle[variant]} map`} ref={mapRef}></section>;
 }
 
-export default Map;
+export { Map };
+export default connector(Map);

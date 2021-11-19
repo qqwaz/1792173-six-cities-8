@@ -1,4 +1,4 @@
-import { OfferImages } from '../../types/offer';
+import { OfferImages } from '../../types/offerImages';
 import { OFFER_GALLERY_PICTURES_MAX_AMOUNT } from '../../const';
 
 type OfferGalleryProps = {

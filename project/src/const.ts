@@ -1,3 +1,5 @@
+import { City } from './types/city';
+
 export enum AppRoute {
   Main = '/',
   Auth = '/login',
@@ -12,25 +14,33 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const Cities = [
+export const Cities: City[] = [
   {
     name: 'Paris',
+    location: { latitude: 48.858906, longitude: 2.3120158, zoom: 10 },
   },
   {
     name: 'Cologne',
+    location: { latitude: 50.95779, longitude: 6.8972834, zoom: 10 },
   },
   {
     name: 'Brussels',
+    location: { latitude: 50.855024, longitude: 4.3403707, zoom: 10 },
   },
   {
     name: 'Amsterdam',
+    location: { latitude: 52.3547498, longitude: 4.8339214, zoom: 10 },
   },
   {
     name: 'Hamburg',
+    location: { latitude: 53.5586941, longitude: 9.7877415, zoom: 10 },
   },
   {
     name: 'Dusseldorf',
-  }] as const;
+    location: { latitude: 51.2385413, longitude: 6.7443112, zoom: 10 },
+  }];
+
+export const DefaultCity = Cities[0];
 
 export const Rating = [
   {
@@ -54,12 +64,12 @@ export const Rating = [
     title: 'terribly',
   }] as const;
 
-export const SortType = {
-  Popular: 'Popular',
-  ToHigh: 'ToHigh',
-  ToLow: 'ToLow',
-  TopFirst: 'TopFirst',
-} as const;
+export enum SortType {
+  Popular = 'Popular',
+  ToHigh = 'ToHigh',
+  ToLow = 'ToLow',
+  TopFirst = 'TopFirst',
+}
 
 export const SortTypeTitle = {
   [SortType.Popular]: 'Popular',
