@@ -5,7 +5,7 @@ import { Comments } from '../../mocks/comments';
 import { dateToMonth, dateToDay } from '../../utils';
 
 type OfferReviewsProps = {
-  offerId: string,
+  offerId: number,
 }
 
 function OfferReviews(props: OfferReviewsProps): JSX.Element {

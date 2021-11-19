@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { Rating, MIN_REVIEW_COMMENT_LENGTH, MAX_REVIEW_COMMENT_LENGTH } from '../../const';
 
 type OfferReviewFormProps = {
-  offerId: string,
+  offerId: number,
 }
 
 function OfferReviewForm(props: OfferReviewFormProps): JSX.Element {
