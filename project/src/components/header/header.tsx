@@ -1,13 +1,40 @@
-import { Link } from 'react-router-dom';
+import { connect, ConnectedProps } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { ThunkAppDispatch } from '../../types/action';
+import { logout } from '../../store/action';
+import { State } from '../../types/state';
 
-function Header(): JSX.Element {
+const mapStateToProps = ({authorizationStatus, authInfo}: State) => ({
+  authorizationStatus,
+  authInfo,
+});
 
-  const currentAuthorizationStatus = AuthorizationStatus.Auth;
-  const currentLocation: string = AppRoute.Main;
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onLogout() {
+    dispatch(logout());
+  },
+});
 
-  const showNavigation = currentLocation !== AppRoute.Auth;
-  const isAuthed = currentAuthorizationStatus === AuthorizationStatus.Auth;
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function Header(props: PropsFromRedux): JSX.Element {
+  const {
+    authorizationStatus,
+    authInfo,
+    onLogout,
+  } = props;
+
+  const history = useHistory();
+
+  const showNavigation = history.location.pathname !== AppRoute.Auth;
+  const isAuthed = authorizationStatus === AuthorizationStatus.Auth;
+
+  const onSignOut = () => {
+    onLogout();
+  };
 
   return (
     <header className="header">
@@ -21,21 +48,33 @@ function Header(): JSX.Element {
           {showNavigation &&
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    {isAuthed
-                      ? <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                      : <span className="header__login">Sign in</span>}
-                  </Link>
-                </li>
-                {isAuthed &&
-                  <li className="header__nav-item">
-                    <a className="header__nav-link" href="/">
-                      <span className="header__signout">Sign out</span>
-                    </a>
-                  </li>}
+                {isAuthed
+                  ? (
+                    <>
+                      <li className="header__nav-item user">
+                        <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
+                          <div className="header__avatar-wrapper user__avatar-wrapper">
+                            <img src={authInfo?.avatarUrl} alt='Avatar' />
+                          </div>
+                          <span className="header__user-name user__name">{authInfo?.email}</span>
+                        </Link>
+                      </li>
+                      <li className="header__nav-item">
+                        <a className="header__nav-link" href="#">
+                          <span className="header__signout" onClick={onSignOut}>Sign out</span>
+                        </a>
+                      </li>
+                    </>)
+                  : (
+                    <li className="header__nav-item user">
+                      <Link
+                        className="header__nav-link header__nav-link--profile"
+                        to='/login'
+                      >
+                        <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                        <span className="header__login">Sign in</span>
+                      </Link>
+                    </li>)}
               </ul>
             </nav>}
         </div>
@@ -44,4 +83,5 @@ function Header(): JSX.Element {
   );
 }
 
-export default Header;
+export { Header };
+export default connector(Header);

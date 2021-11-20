@@ -1,5 +1,6 @@
 import { connect, ConnectedProps } from 'react-redux';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, Router as BrowserRouter } from 'react-router-dom';
+import browserHistory from '../../browser-history';
 import MainPage from '../main-page/main-page';
 import AuthPage from '../auth-page/auth-page';
 import FavoritesPage from '../favorites-page/favorites-page';
@@ -22,7 +23,6 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 function App(props: PropsFromRedux): JSX.Element {
   const {
     isLoading,
-    authorizationStatus,
   } = props;
 
   if (isLoading) {
@@ -32,7 +32,7 @@ function App(props: PropsFromRedux): JSX.Element {
   const favoritesPageRender = () => <FavoritesPage />;
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.Main}>
           <MainPage />
@@ -42,7 +42,6 @@ function App(props: PropsFromRedux): JSX.Element {
         </Route>
         <PrivateRoute exact path={AppRoute.Favorites}
           render={favoritesPageRender}
-          authorizationStatus={authorizationStatus}
         />
         <Route exact path={`${AppRoute.Offer}/:id`}>
           <OfferPage />

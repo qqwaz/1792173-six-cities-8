@@ -7,14 +7,10 @@ import { createAPI } from './services/api';
 import { Provider } from 'react-redux';
 import { reducer } from './store/reducer';
 import {composeWithDevTools} from 'redux-devtools-extension';
-import { requireAuthorization } from './store/action';
-import { AuthorizationStatus } from './const';
 import { ThunkAppDispatch } from './types/action';
-import { fetchOffersAction } from './store/action';
+import { checkAuth, fetchOffers } from './store/action';
 
-const api = createAPI(
-  () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)),
-);
+const api = createAPI();
 
 const store = createStore(
   reducer,
@@ -23,7 +19,8 @@ const store = createStore(
   ),
 );
 
-(store.dispatch as ThunkAppDispatch)(fetchOffersAction());
+(store.dispatch as ThunkAppDispatch)(checkAuth());
+(store.dispatch as ThunkAppDispatch)(fetchOffers());
 
 ReactDOM.render(
   <React.StrictMode>

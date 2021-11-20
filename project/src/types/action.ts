@@ -4,6 +4,7 @@ import { AxiosInstance } from 'axios';
 import { Offer } from './offer';
 import { City } from './city';
 import { SortType, AuthorizationStatus } from '../const';
+import { AuthInfo } from './authInfo';
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;
@@ -36,10 +37,12 @@ export type LoadingAction = {
   type: ActionType.Loading;
 };
 
-
 export type RequireAuthorization = {
   type: ActionType.RequireAuthorization;
-  payload: AuthorizationStatus;
+  payload: {
+    authStatus: AuthorizationStatus,
+    authInfo?: AuthInfo
+  }
 };
 
 export type RequireLogout = {

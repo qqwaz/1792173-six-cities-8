@@ -8,7 +8,7 @@ const initialState: State = {
   favorites: [],
   sortType: SortType.Popular,
   isLoading: true,
-  authorizationStatus: AuthorizationStatus.NoAuth,
+  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -42,7 +42,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
     case ActionType.RequireAuthorization:
       return {
         ...state,
-        authorizationStatus: action.payload,
+        authorizationStatus: action.payload.authStatus,
+        authInfo: action.payload.authInfo,
       };
     case ActionType.RequireLogout:
       return {

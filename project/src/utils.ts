@@ -1,7 +1,9 @@
 import dayjs from 'dayjs';
 import { Offer } from './types/offer';
 import { City } from './types/city';
-import { SortType } from './const';
+import { SortType, Cities } from './const';
+
+export const getRandomCity = (): City => Cities[Math.floor(Math.random() * Cities.length)];
 
 export const getOffer = (id: string, offers: Offer[]): Offer | undefined => {
   const offerId = Number.parseInt(id, 10);
