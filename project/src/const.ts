@@ -14,6 +14,13 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export enum APIRoute {
+  Offers = '/hotels',
+  Favorites = '/favorite',
+  Login = '/login',
+  Logout = '/logout',
+}
+
 export const Cities: City[] = [
   {
     name: 'Paris',

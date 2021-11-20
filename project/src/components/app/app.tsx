@@ -1,23 +1,35 @@
+import { connect, ConnectedProps } from 'react-redux';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import MainPage from '../main-page/main-page';
 import AuthPage from '../auth-page/auth-page';
 import FavoritesPage from '../favorites-page/favorites-page';
 import OfferPage from '../offer-page/offer-page';
 import NotFoundPage from '../not-found-page/not-fount-page';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
 import PrivateRoute from '../private-route/private-route';
-import { Offer } from '../../types/offer';
+import { State } from '../../types/state';
+import Loading from '../loading/loading';
 
-type AppProps = {
-  offers: Offer[];
-}
+const mapStateToProps = ({isLoading, authorizationStatus}: State) => ({
+  isLoading,
+  authorizationStatus,
+});
 
-function App(props: AppProps): JSX.Element {
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function App(props: PropsFromRedux): JSX.Element {
   const {
-    offers,
+    isLoading,
+    authorizationStatus,
   } = props;
 
-  const favorites = offers.filter((x) => x.isFavorite);
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  const favoritesPageRender = () => <FavoritesPage />;
 
   return (
     <BrowserRouter>
@@ -29,8 +41,8 @@ function App(props: AppProps): JSX.Element {
           <AuthPage />
         </Route>
         <PrivateRoute exact path={AppRoute.Favorites}
-          render={() => <FavoritesPage offers={favorites} />}
-          authorizationStatus={AuthorizationStatus.Auth}
+          render={favoritesPageRender}
+          authorizationStatus={authorizationStatus}
         />
         <Route exact path={`${AppRoute.Offer}/:id`}>
           <OfferPage />
@@ -43,4 +55,5 @@ function App(props: AppProps): JSX.Element {
   );
 }
 
-export default App;
+export { App };
+export default connector(App);

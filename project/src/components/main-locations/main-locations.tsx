@@ -2,22 +2,19 @@ import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
 import { State } from '../../types/state';
 import { Actions } from '../../types/action';
-import { changeCity as changeCityState, getOffers as getOffersState } from '../../store/action';
+import { changeCity as changeCityState } from '../../store/action';
 import { Cities } from '../../const';
 import { SyntheticEvent } from 'react';
 import { City } from '../../types/city';
-import { getOffersByCity } from '../../utils';
 
-const mapStateToProps = ({ city, offers }: State) => ({
+const mapStateToProps = ({ city }: State) => ({
   city,
-  offers,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
   bindActionCreators(
     {
       changeCity: changeCityState,
-      getOffers: getOffersState,
     },
     dispatch,
   );
@@ -29,15 +26,12 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 function MainLocations(props: PropsFromRedux): JSX.Element {
   const {
     city,
-    offers,
     changeCity,
-    getOffers,
   } = props;
 
   const onClick = (newCity: City) => (e: SyntheticEvent) => {
     e.preventDefault();
     changeCity(newCity);
-    getOffers(getOffersByCity(newCity, offers));
   };
 
   return (

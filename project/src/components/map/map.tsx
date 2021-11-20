@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import { MapComponentVariant, URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import useMap from '../../hooks/useMap';
 import { State } from '../../types/state';
+import { getOffersByCity } from '../../utils';
 
 type MapProps = {
   variant: MapComponentVariant,
@@ -48,16 +49,21 @@ function Map(props: ConnectedComponentProps): JSX.Element {
     activeOfferId,
   } = props;
 
+  const localOffers = getOffersByCity(city, offers);
+
   const mapRef = useRef(null);
   const map = useMap(mapRef, city.location);
 
   useEffect(() => {
     if (map) {
-      markers?.clearLayers();
-
       map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
+    }
+  }, [map, city]);
 
-      offers.forEach((offer) => {
+  useEffect(() => {
+    if (map) {
+      markers?.clearLayers();
+      localOffers.forEach((offer) => {
         markers.addLayer(
           leaflet
             .marker(
@@ -72,7 +78,7 @@ function Map(props: ConnectedComponentProps): JSX.Element {
       });
       markers.addTo(map);
     }
-  }, [map, city, offers, activeOfferId]);
+  }, [map, localOffers, activeOfferId]);
 
   return <section className={`${mapStyle[variant]} map`} ref={mapRef}></section>;
 }

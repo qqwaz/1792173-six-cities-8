@@ -28,7 +28,7 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
   } = props;
 
   const match = useRouteMatch<MatchParams>();
-  const offer = getOffer(match.params.id);
+  const offer = getOffer(match.params.id, offers);
 
   if (!offer) {
     return <Redirect to={AppRoute.NotFound} />;

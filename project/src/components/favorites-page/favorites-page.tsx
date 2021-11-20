@@ -1,23 +1,28 @@
+import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../header/header';
 import FavoritesLocations from '../favorites-locations/favorites-locations';
 import FavoritesEmpty from '../favorites-empty/favorites-empty';
-import { Offer } from '../../types/offer';
 import { groupOffersByCity } from '../../utils';
 import { AppRoute } from '../../const';
+import { State } from '../../types/state';
 
-type FavoritesPageProps = {
-  offers: Offer[],
-}
+const mapStateToProps = ({favorites}: State) => ({
+  favorites,
+});
 
-function FavoritesPage(props: FavoritesPageProps): JSX.Element {
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function FavoritesPage(props: PropsFromRedux): JSX.Element {
   const {
-    offers,
+    favorites,
   } = props;
 
-  const isEmpty = !offers.length;
+  const isEmpty = !favorites.length;
 
-  const locations = groupOffersByCity(offers);
+  const locations = groupOffersByCity(favorites);
 
   return (
     <div className="page">
@@ -47,4 +52,5 @@ function FavoritesPage(props: FavoritesPageProps): JSX.Element {
   );
 }
 
-export default FavoritesPage;
+export { FavoritesPage };
+export default connector(FavoritesPage);

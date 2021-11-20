@@ -8,10 +8,12 @@ import MainEmpty from '../main-empty/main-empty';
 import Map from '../map/map';
 import { MapComponentVariant, PlaceCardComponentVariant } from '../../const';
 import { State } from '../../types/state';
+import { getOffersByCity, sortOffers } from '../../utils';
 
-const mapStateToProps = ({city, offers}: State) => ({
+const mapStateToProps = ({city, offers, sortType}: State) => ({
   city,
   offers,
+  sortType,
 });
 
 const connector = connect(mapStateToProps);
@@ -22,9 +24,12 @@ function MainPage(props: PropsFromRedux): JSX.Element {
   const {
     city,
     offers,
+    sortType,
   } = props;
 
-  const isEmpty = !offers.length;
+  const localOffers = sortOffers(getOffersByCity(city, offers), sortType);
+
+  const isEmpty = !localOffers.length;
 
   const [activeOfferId, setActiveOfferId] = useState<number | undefined>();
 
@@ -40,10 +45,10 @@ function MainPage(props: PropsFromRedux): JSX.Element {
               <div className="cities__places-container container">
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{offers?.length} places to stay in {city?.name}</b>
+                  <b className="places__found">{localOffers?.length} places to stay in {city?.name}</b>
                   <Sorting />
                   <div className="cities__places-list places__list tabs__content">
-                    {offers.map((offer) => (
+                    {localOffers.map((offer) => (
                       <PlaceCard key={offer.id}
                         variant={PlaceCardComponentVariant.Main}
                         offer={offer}

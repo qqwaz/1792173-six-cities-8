@@ -1,12 +1,11 @@
 import dayjs from 'dayjs';
 import { Offer } from './types/offer';
 import { City } from './types/city';
-import { Offers } from './mocks/offers';
 import { SortType } from './const';
 
-export const getOffer = (id: string): Offer | undefined => {
+export const getOffer = (id: string, offers: Offer[]): Offer | undefined => {
   const offerId = Number.parseInt(id, 10);
-  return Offers.find((offer) => offer.id === offerId);
+  return offers.find((offer) => offer.id === offerId);
 };
 
 export const groupOffersByCity = (offers: Offer[]): Record<string, Offer[]> => offers
@@ -16,7 +15,7 @@ export const groupOffersByCity = (offers: Offer[]): Record<string, Offer[]> => o
     return acc;
   }, {} as Record<string, Offer[]>);
 
-export const getOffersByCity = (city: City, offers: Offer[]): Offer[] => Offers.filter((x) => x.city.name === city.name);
+export const getOffersByCity = (city: City, offers: Offer[]): Offer[] => offers.filter((x) => x.city.name === city.name);
 
 export function dateToMonth(date: Date): string {
   return dayjs(date).format('MMMM YYYY');
