@@ -10,7 +10,7 @@ type FavoritesLocationsProps = {
 function FavoritesLocations(props: FavoritesLocationsProps): JSX.Element {
   const [
     city,
-    offers
+    offers,
   ] = props.location;
 
   return (
