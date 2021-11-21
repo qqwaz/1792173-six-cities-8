@@ -6,7 +6,9 @@ const initialState: State = {
   city: DefaultCity,
   offers: [],
   favorites: [],
+  nearbies: [],
   sortType: SortType.Popular,
+  reviews: [],
   isLoading: true,
   authorizationStatus: AuthorizationStatus.Unknown,
 };
@@ -27,6 +29,30 @@ const reducer = (state: State = initialState, action: Actions): State => {
         isLoading: false,
       };
     }
+    case ActionType.GetFavorites: {
+      return {
+        ...state,
+        favorites: action.payload,
+      };
+    }
+    case ActionType.GetNearbies: {
+      return {
+        ...state,
+        nearbies: action.payload,
+      };
+    }
+    case ActionType.GetCurrentOffer: {
+      return {
+        ...state,
+        currentOffer: action.payload,
+      };
+    }
+    case ActionType.GetReviews: {
+      return {
+        ...state,
+        reviews: action.payload,
+      };
+    }
     case ActionType.ChangeSortType: {
       return {
         ...state,
@@ -42,13 +68,17 @@ const reducer = (state: State = initialState, action: Actions): State => {
     case ActionType.RequireAuthorization:
       return {
         ...state,
-        authorizationStatus: action.payload.authStatus,
-        authInfo: action.payload.authInfo,
+        authorizationStatus: action.payload,
       };
     case ActionType.RequireLogout:
       return {
         ...state,
         authorizationStatus: AuthorizationStatus.NoAuth,
+      };
+    case ActionType.GetAuthInfo:
+      return {
+        ...state,
+        authInfo: action.payload,
       };
 
     default:

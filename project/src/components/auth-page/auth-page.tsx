@@ -4,7 +4,7 @@ import Header from '../header/header';
 import { AppRoute } from '../../const';
 import { connect, ConnectedProps } from 'react-redux';
 import { ThunkAppDispatch } from '../../types/action';
-import { AuthData } from '../../types/authData';
+import { AuthData } from '../../types/auth-data';
 import { login } from '../../store/action';
 import { getRandomCity } from '../../utils';
 

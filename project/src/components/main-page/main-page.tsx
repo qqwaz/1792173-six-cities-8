@@ -58,7 +58,11 @@ function MainPage(props: PropsFromRedux): JSX.Element {
                   </div>
                 </section>
                 <div className="cities__right-section">
-                  <Map variant={MapComponentVariant.Main} activeOfferId={activeOfferId}/>
+                  <Map
+                    variant={MapComponentVariant.Main}
+                    activeOfferId={activeOfferId}
+                    offers={localOffers}
+                  />
                 </div>
               </div>
             )}

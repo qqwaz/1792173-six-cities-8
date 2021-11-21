@@ -17,6 +17,9 @@ export enum AuthorizationStatus {
 export enum APIRoute {
   Offers = '/hotels',
   Favorites = '/favorite',
+  FavoriteSwitch = '/favorite/:hotel_id/:status',
+  Nearbies = '/hotels/:hotel_id/nearby',
+  Reviews = '/comments/:hotel_id',
   Login = '/login',
   Logout = '/logout',
 }
@@ -124,3 +127,6 @@ export const MAX_REVIEW_COMMENT_LENGTH = 300;
 export const URL_MARKER_DEFAULT = '/img/pin.svg';
 export const URL_MARKER_CURRENT = '/img/pin-active.svg';
 
+export const AUTH_NOT_AUTHED_MESSAGE = 'Please, log in first';
+export const AUTH_WRONG_CREDS_MESSAGE = 'Wrong credentials';
+export const REVIEW_NOT_UPLOADED_MESSAGE = 'Review was not uploaded';

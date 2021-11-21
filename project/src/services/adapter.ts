@@ -1,9 +1,9 @@
 import { Offer } from '../types/offer';
 import { Comment } from '../types/comment';
-import { AuthInfo } from '../types/authInfo';
+import { AuthInfo } from '../types/auth-info';
 
-export const adaptOffersToClient = (offers: any[]): Offer[] => offers
-  .map(({
+export const adaptOfferToClient = (offer: any): Offer => {
+  const {
     preview_image: previewImage,
     is_favorite: isFavorite,
     is_premium: isPremium,
@@ -14,36 +14,43 @@ export const adaptOffersToClient = (offers: any[]): Offer[] => offers
       ...restHost
     },
     ...rest
-  }) => ({
-    previewImage: previewImage,
-    isFavorite: isFavorite,
-    isPremium: isPremium,
-    maxAdults: maxAdults,
+  } = offer;
+  return ({
+    previewImage,
+    isFavorite,
+    isPremium,
+    maxAdults,
     host: {
-      isPro: isPro,
-      avatarUrl: avatarUrl,
+      isPro,
+      avatarUrl,
       ...restHost,
     },
     ...rest,
-  }));
+  });
+};
 
+export const adaptOffersToClient = (offers: any[]): Offer[] => offers.map(adaptOfferToClient);
 
-export const adaptCommentToClient = (comments: any[]): Comment[] => comments
-  .map(({
+export const adaptCommentToClient = (comment: any): Comment => {
+  const {
     user: {
       is_pro: isPro,
       avatar_url: avatarUrl,
       ...restUser
     },
     ...rest
-  }) => ({
+  } = comment;
+  return ({
     user: {
       isPro: isPro,
       avatarUrl: avatarUrl,
       ...restUser,
     },
     ...rest,
-  }));
+  });
+};
+
+export const adaptCommentsToClient = (comments: any[]): Comment[] => comments.map(adaptCommentToClient);
 
 export const adaptAuthInfoToClient = (info: any): AuthInfo => ({
   avatarUrl: info.avatar_url,

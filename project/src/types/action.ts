@@ -3,8 +3,9 @@ import { State } from './state';
 import { AxiosInstance } from 'axios';
 import { Offer } from './offer';
 import { City } from './city';
-import { SortType, AuthorizationStatus } from '../const';
-import { AuthInfo } from './authInfo';
+import { SortType, AuthorizationStatus, AppRoute } from '../const';
+import { AuthInfo } from './auth-info';
+import { Comment } from './comment';
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;
@@ -12,10 +13,17 @@ export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;
 export enum ActionType {
   ChangeCity = 'changeCity',
   GetOffers = 'getOffers',
+  GetFavorites = 'getFavorites',
+  GetNearbies = 'getNearbies',
   ChangeSortType = 'changeSortType',
   RequireAuthorization = 'requireAuthorization',
   RequireLogout = 'requireLogout',
+  GetAuthInfo = 'getAuthInfo',
   Loading = 'loading',
+  GetCurrentOffer = 'getCurrentOffer',
+  GetReviews = 'getReviews',
+  PostReview = 'postReview',
+  RedirectToRoute = 'redirect',
 }
 
 export type ChangeCityAction = {
@@ -28,6 +36,16 @@ export type GetOffersAction = {
   payload: Offer[];
 };
 
+export type GetFavoritesAction = {
+  type: ActionType.GetFavorites;
+  payload: Offer[];
+};
+
+export type GetNearbiesAction = {
+  type: ActionType.GetNearbies;
+  payload: Offer[];
+};
+
 export type ChangeSortTypeAction = {
   type: ActionType.ChangeSortType;
   payload: SortType;
@@ -37,22 +55,51 @@ export type LoadingAction = {
   type: ActionType.Loading;
 };
 
-export type RequireAuthorization = {
+export type RequireAuthorizationAction = {
   type: ActionType.RequireAuthorization;
-  payload: {
-    authStatus: AuthorizationStatus,
-    authInfo?: AuthInfo
-  }
+  payload: AuthorizationStatus,
 };
 
-export type RequireLogout = {
+export type RequireLogoutAction = {
   type: ActionType.RequireLogout;
+};
+
+export type GetAuthInfoAction = {
+  type: ActionType.GetAuthInfo;
+  payload?: AuthInfo,
+};
+
+export type GetCurrentOfferAction = {
+  type: ActionType.GetCurrentOffer;
+  payload?: Offer;
+};
+
+export type GetReviewsAction = {
+  type: ActionType.GetReviews;
+  payload: Comment[];
+};
+
+export type PostReviewAction = {
+  type: ActionType.PostReview;
+  payload: Comment;
+};
+
+export type RedirectToRoute = {
+  type: ActionType.RedirectToRoute;
+  payload: AppRoute;
 };
 
 export type Actions =
   | ChangeCityAction
   | GetOffersAction
+  | GetFavoritesAction
+  | GetNearbiesAction
   | ChangeSortTypeAction
   | LoadingAction
-  | RequireAuthorization
-  | RequireLogout;
+  | RequireAuthorizationAction
+  | RequireLogoutAction
+  | GetAuthInfoAction
+  | GetCurrentOfferAction
+  | GetReviewsAction
+  | PostReviewAction
+  | RedirectToRoute;

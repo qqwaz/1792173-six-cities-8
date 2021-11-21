@@ -1,24 +1,32 @@
+import { connect, ConnectedProps } from 'react-redux';
 import OfferReviewForm from '../offer-review-form/offer-review-form';
 import Rating from '../rating/rating';
-import { RatingComponentVariant } from '../../const';
-import { Comments } from '../../mocks/comments';
+import { RatingComponentVariant, AuthorizationStatus } from '../../const';
 import { dateToMonth, dateToDay } from '../../utils';
+import { State } from '../../types/state';
 
-type OfferReviewsProps = {
-  offerId: number,
-}
+const mapStateToProps = ({reviews, authorizationStatus}: State) => ({
+  reviews,
+  authorizationStatus,
+});
 
-function OfferReviews(props: OfferReviewsProps): JSX.Element {
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function OfferReviews(props: PropsFromRedux): JSX.Element {
   const {
-    offerId,
+    reviews,
+    authorizationStatus,
   } = props;
-  const comments = Comments;
+
+  const isAuthed = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
     <section className="property__reviews reviews">
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
+      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
       <ul className="reviews__list">
-        {comments.map((x) => (
+        {reviews.map((x) => (
           <li key={x.id} className="reviews__item">
             <div className="reviews__user user">
               <div className="reviews__avatar-wrapper user__avatar-wrapper">
@@ -38,9 +46,11 @@ function OfferReviews(props: OfferReviewsProps): JSX.Element {
           </li>
         ))}
       </ul>
-      <OfferReviewForm offerId={offerId}/>
+      {isAuthed &&
+        <OfferReviewForm />}
     </section>
   );
 }
 
-export default OfferReviews;
+export { OfferReviews };
+export default connector(OfferReviews);

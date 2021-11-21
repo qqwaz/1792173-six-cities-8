@@ -1,13 +1,31 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { ThunkAppDispatch } from '../../types/action';
+import { postReview } from '../../store/action';
+import { State } from '../../types/state';
 import { Rating, MIN_REVIEW_COMMENT_LENGTH, MAX_REVIEW_COMMENT_LENGTH } from '../../const';
 
-type OfferReviewFormProps = {
-  offerId: number,
-}
+const mapStateToProps = ({ currentOffer }: State) => ({
+  currentOffer,
+});
 
-function OfferReviewForm(props: OfferReviewFormProps): JSX.Element {
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) =>
+  bindActionCreators(
+    {
+      addReview: postReview,
+    },
+    dispatch,
+  );
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function OfferReviewForm(props: PropsFromRedux): JSX.Element {
   const {
-    offerId,
+    currentOffer,
+    addReview,
   } = props;
 
   const [review, setReview] = useState({
@@ -27,6 +45,10 @@ function OfferReviewForm(props: OfferReviewFormProps): JSX.Element {
   const formSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setReview({rating: 0, comment: ''});
+    if(!currentOffer){
+      return;
+    }
+    addReview(currentOffer.id.toString(), review.comment, review.rating);
   };
 
   return (
@@ -70,4 +92,5 @@ function OfferReviewForm(props: OfferReviewFormProps): JSX.Element {
   );
 }
 
-export default OfferReviewForm;
+export { OfferReviewForm };
+export default connector(OfferReviewForm);

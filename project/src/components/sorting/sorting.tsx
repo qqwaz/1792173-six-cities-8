@@ -1,8 +1,8 @@
 import { useRef, useState, SyntheticEvent } from 'react';
-import { bindActionCreators, Dispatch, AnyAction } from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
 import { State } from '../../types/state';
-import { Actions } from '../../types/action';
+import { ThunkAppDispatch } from '../../types/action';
 import { changeSortType as changeSortTypeState } from '../../store/action';
 import { SortType, SortTypeTitle } from '../../const';
 
@@ -10,7 +10,7 @@ const mapStateToProps = ({ sortType }: State) => ({
   sortType,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) =>
   bindActionCreators(
     {
       changeSortType: changeSortTypeState,

@@ -1,7 +1,7 @@
 import { OfferType } from '../const';
 import { City } from './city';
 import { Location } from './location';
-import { OfferImages } from './offerImages';
+import { OfferImages } from './offer-images';
 import { User } from './user';
 
 export type Offer = {
@@ -12,7 +12,7 @@ export type Offer = {
   isFavorite: boolean,
   isPremium: boolean,
   rating: number,
-  type: string | OfferType,
+  type: OfferType,
   bedrooms: number,
   maxAdults: number,
   price: number,

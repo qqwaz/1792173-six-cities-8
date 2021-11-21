@@ -1,7 +1,7 @@
-import { bindActionCreators, Dispatch, AnyAction } from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
 import { State } from '../../types/state';
-import { Actions } from '../../types/action';
+import { ThunkAppDispatch } from '../../types/action';
 import { changeCity as changeCityState } from '../../store/action';
 import { Cities } from '../../const';
 import { SyntheticEvent } from 'react';
@@ -11,7 +11,7 @@ const mapStateToProps = ({ city }: State) => ({
   city,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) =>
   bindActionCreators(
     {
       changeCity: changeCityState,

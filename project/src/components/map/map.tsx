@@ -4,12 +4,13 @@ import leaflet, { LayerGroup }  from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapComponentVariant, URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import useMap from '../../hooks/useMap';
+import { Offer } from '../../types/offer';
 import { State } from '../../types/state';
-import { getOffersByCity } from '../../utils';
 
 type MapProps = {
   variant: MapComponentVariant,
   activeOfferId: number | undefined,
+  offers: Offer[],
 };
 
 const defaultCustomIcon = leaflet.icon({
@@ -29,9 +30,8 @@ const mapStyle = {
   [MapComponentVariant.Offer]: 'property__map',
 };
 
-const mapStateToProps = ({city, offers}: State) => ({
+const mapStateToProps = ({city}: State) => ({
   city,
-  offers,
 });
 
 const connector = connect(mapStateToProps);
@@ -49,8 +49,6 @@ function Map(props: ConnectedComponentProps): JSX.Element {
     activeOfferId,
   } = props;
 
-  const localOffers = getOffersByCity(city, offers);
-
   const mapRef = useRef(null);
   const map = useMap(mapRef, city.location);
 
@@ -63,7 +61,7 @@ function Map(props: ConnectedComponentProps): JSX.Element {
   useEffect(() => {
     if (map) {
       markers?.clearLayers();
-      localOffers.forEach((offer) => {
+      offers.forEach((offer) => {
         markers.addLayer(
           leaflet
             .marker(
@@ -78,7 +76,7 @@ function Map(props: ConnectedComponentProps): JSX.Element {
       });
       markers.addTo(map);
     }
-  }, [map, localOffers, activeOfferId]);
+  }, [map, offers, activeOfferId]);
 
   return <section className={`${mapStyle[variant]} map`} ref={mapRef}></section>;
 }
