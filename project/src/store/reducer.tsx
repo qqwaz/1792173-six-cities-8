@@ -53,6 +53,18 @@ const reducer = (state: State = initialState, action: Actions): State => {
         reviews: action.payload,
       };
     }
+    case ActionType.SetFavoriteStatus: {
+      if (state.offers.length) {
+        state.offers[state.offers.findIndex((x) => x.id === action.payload.id)].isFavorite = action.payload.isFavorite;
+      }
+      if (state.currentOffer) {
+        state.currentOffer.isFavorite = action.payload.isFavorite;
+      }
+      if (state.favorites.length && !action.payload.isFavorite) {
+        state.favorites.splice(state.favorites.findIndex((x) => x.id === action.payload.id), 1);
+      }
+      return state;
+    }
     case ActionType.ChangeSortType: {
       return {
         ...state,

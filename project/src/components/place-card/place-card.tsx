@@ -1,13 +1,38 @@
+import { SyntheticEvent } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { ThunkAppDispatch } from '../../types/action';
+import { postFavorite, redirectToRoute } from '../../store/action';
 import { Link } from 'react-router-dom';
 import Rating from '../rating/rating';
 import { RatingComponentVariant, PlaceCardComponentVariant, AppRoute, OfferTypeTitle, OfferType } from '../../const';
 import { Offer } from '../../types/offer';
+import { State } from '../../types/state';
+import { AuthorizationStatus } from '../../const';
 
 type PlaceCardProps = {
   variant: PlaceCardComponentVariant,
   offer: Offer,
   setActiveOfferId?: (id: number | undefined) => void,
 }
+
+const mapStateToProps = ({authorizationStatus}: State) => ({
+  authorizationStatus,
+});
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) =>
+  bindActionCreators(
+    {
+      setFavorite: postFavorite,
+      redirect: redirectToRoute,
+    },
+    dispatch,
+  );
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & PlaceCardProps;
 
 const ArticleStyle = {
   [PlaceCardComponentVariant.Favorites]: 'favorites__card place-card',
@@ -42,11 +67,14 @@ const ImgSize = {
   },
 };
 
-function PlaceCard(props: PlaceCardProps): JSX.Element {
+function PlaceCard(props: ConnectedComponentProps): JSX.Element {
   const {
     variant,
     offer,
+    authorizationStatus,
     setActiveOfferId,
+    setFavorite,
+    redirect,
   } = props;
 
   function MouseOverHandler() {
@@ -60,6 +88,16 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
       setActiveOfferId(undefined);
     }
   }
+
+  const isFavoriteStyle = offer.isFavorite ? 'place-card__bookmark-button--active' : '';
+
+  const onClick = (e: SyntheticEvent) => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      redirect(AppRoute.Auth);
+      return;
+    }
+    setFavorite(offer.id.toString(), Number(!offer.isFavorite).toString());
+  };
 
   return (
     <article className={ArticleStyle[variant]}
@@ -81,7 +119,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button ${offer.isFavorite && 'place-card__bookmark-button--active'} button`} type="button">
+          <button className={`place-card__bookmark-button ${isFavoriteStyle} button`} type="button" onClick={onClick}>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -100,4 +138,5 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
   );
 }
 
-export default PlaceCard;
+export { PlaceCard };
+export default connector(PlaceCard);

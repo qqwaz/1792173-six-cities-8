@@ -22,7 +22,7 @@ export enum ActionType {
   Loading = 'loading',
   GetCurrentOffer = 'getCurrentOffer',
   GetReviews = 'getReviews',
-  PostReview = 'postReview',
+  SetFavoriteStatus = 'setFavoriteStatus',
   RedirectToRoute = 'redirect',
 }
 
@@ -79,9 +79,9 @@ export type GetReviewsAction = {
   payload: Comment[];
 };
 
-export type PostReviewAction = {
-  type: ActionType.PostReview;
-  payload: Comment;
+export type SetFavoriteStatusAction = {
+  type: ActionType.SetFavoriteStatus;
+  payload: Offer;
 };
 
 export type RedirectToRoute = {
@@ -101,5 +101,5 @@ export type Actions =
   | GetAuthInfoAction
   | GetCurrentOfferAction
   | GetReviewsAction
-  | PostReviewAction
+  | SetFavoriteStatusAction
   | RedirectToRoute;

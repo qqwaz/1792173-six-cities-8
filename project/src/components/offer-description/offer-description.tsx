@@ -1,18 +1,53 @@
-import { RatingComponentVariant } from '../../const';
+import { SyntheticEvent } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { ThunkAppDispatch } from '../../types/action';
+import { postFavorite, redirectToRoute } from '../../store/action';
+import { AppRoute, AuthorizationStatus, RatingComponentVariant } from '../../const';
 import Rating from '../rating/rating';
 import { Offer } from '../../types/offer.js';
+import { State } from '../../types/state';
 
 type OfferDescriptionProps = {
   offer: Offer,
 }
 
-function OfferDescription(props: OfferDescriptionProps): JSX.Element {
+const mapStateToProps = ({authorizationStatus}: State) => ({
+  authorizationStatus,
+});
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) =>
+  bindActionCreators(
+    {
+      setFavorite: postFavorite,
+      redirect: redirectToRoute,
+    },
+    dispatch,
+  );
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & OfferDescriptionProps;
+
+function OfferDescription(props: ConnectedComponentProps): JSX.Element {
   const {
     offer,
+    authorizationStatus,
+    setFavorite,
+    redirect,
   } = props;
 
   const isFavoriteStyle = offer.isFavorite ? 'property__bookmark-button--active' : '';
   const isProStyle = offer.host.isPro ? 'property__avatar-wrapper--pro' : '';
+
+  const onClick = (e: SyntheticEvent) => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      redirect(AppRoute.Auth);
+      return;
+    }
+    setFavorite(offer.id.toString(), Number(!offer.isFavorite).toString());
+  };
 
   return (
     <>
@@ -24,7 +59,7 @@ function OfferDescription(props: OfferDescriptionProps): JSX.Element {
         <h1 className="property__name">
           {offer.title}
         </h1>
-        <button className={`property__bookmark-button button ${isFavoriteStyle}`} type="button">
+        <button className={`property__bookmark-button button ${isFavoriteStyle}`} type="button" onClick={onClick}>
           <svg className="property__bookmark-icon" width="31" height="33">
             <use xlinkHref="#icon-bookmark"></use>
           </svg>
@@ -81,4 +116,5 @@ function OfferDescription(props: OfferDescriptionProps): JSX.Element {
   );
 }
 
-export default OfferDescription;
+export { OfferDescription };
+export default connector(OfferDescription);

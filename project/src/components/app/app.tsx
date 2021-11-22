@@ -11,9 +11,8 @@ import PrivateRoute from '../private-route/private-route';
 import { State } from '../../types/state';
 import Loading from '../loading/loading';
 
-const mapStateToProps = ({isLoading, authorizationStatus}: State) => ({
+const mapStateToProps = ({isLoading}: State) => ({
   isLoading,
-  authorizationStatus,
 });
 
 const connector = connect(mapStateToProps);

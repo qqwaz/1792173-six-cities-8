@@ -1,24 +1,48 @@
 import { connect, ConnectedProps } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { bindActionCreators } from '@reduxjs/toolkit';
 import Header from '../header/header';
 import FavoritesLocations from '../favorites-locations/favorites-locations';
 import FavoritesEmpty from '../favorites-empty/favorites-empty';
 import { groupOffersByCity } from '../../utils';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
+import { fetchFavorites } from '../../store/action';
+import { useEffect } from 'react';
 
-const mapStateToProps = ({favorites}: State) => ({
+const mapStateToProps = ({favorites, authorizationStatus}: State) => ({
   favorites,
+  authorizationStatus,
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) =>
+  bindActionCreators(
+    {
+      getFavorites: fetchFavorites,
+    },
+    dispatch,
+  );
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function FavoritesPage(props: PropsFromRedux): JSX.Element {
   const {
     favorites,
+    authorizationStatus,
+    getFavorites,
   } = props;
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      getFavorites();
+    }
+  }, [authorizationStatus, getFavorites]);
+
+  if (authorizationStatus !== AuthorizationStatus.Auth) {
+    return <Redirect to={AppRoute.Auth} />;
+  }
 
   const isEmpty = !favorites.length;
 

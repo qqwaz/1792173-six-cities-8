@@ -1,17 +1,17 @@
 import { saveToken, dropToken } from '../services/token';
-import { Offer } from '../types/offer';
+import { Offer, OfferServer } from '../types/offer';
 import { City } from '../types/city';
-import { Comment } from '../types/comment';
-import { AuthInfo } from '../types/auth-info';
+import { Comment, CommentServer } from '../types/comment';
+import { AuthInfo, AuthInfoServer } from '../types/auth-info';
 import { AuthData } from '../types/auth-data';
 import {
   SortType,
   AuthorizationStatus,
   APIRoute,
   AppRoute,
-  AUTH_NOT_AUTHED_MESSAGE,
   AUTH_WRONG_CREDS_MESSAGE,
-  REVIEW_NOT_UPLOADED_MESSAGE
+  REVIEW_NOT_UPLOADED_MESSAGE,
+  FAVORITE_NOT_CHANGED_MESSAGE
 } from '../const';
 import {
   adaptAuthInfoToClient,
@@ -34,7 +34,8 @@ import {
   GetAuthInfoAction,
   GetCurrentOfferAction,
   GetReviewsAction,
-  RedirectToRoute
+  RedirectToRoute,
+  SetFavoriteStatusAction
 } from '../types/action';
 
 export const redirectToRoute = (url: AppRoute): RedirectToRoute => ({
@@ -72,6 +73,11 @@ export const getReviews = (reviews: Comment[]): GetReviewsAction => ({
   payload: reviews,
 });
 
+export const setFavorite = (offer: Offer): SetFavoriteStatusAction => ({
+  type: ActionType.SetFavoriteStatus,
+  payload: offer,
+});
+
 export const changeSortType = (sortType: SortType): ChangeSortTypeAction => ({
   type: ActionType.ChangeSortType,
   payload: sortType,
@@ -98,20 +104,20 @@ export const getAuthInfo = (info: AuthInfo): GetAuthInfoAction => ({
 export const fetchOffers = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     dispatch(loading());
-    const { data } = await api.get<Offer[]>(APIRoute.Offers);
+    const { data } = await api.get<OfferServer[]>(APIRoute.Offers);
     dispatch(getOffers(adaptOffersToClient(data)));
   };
 
 export const fetchFavorites = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const { data } = await api.get<Offer[]>(APIRoute.Favorites);
+    const { data } = await api.get<OfferServer[]>(APIRoute.Favorites);
     dispatch(getFavorites(adaptOffersToClient(data)));
   };
 
 export const fetchOfferById = (id: string) : ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      const { data }  = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
+      const { data }  = await api.get<OfferServer>(`${APIRoute.Offers}/${id}`);
       dispatch(getCurrentOffer(adaptOfferToClient(data)));
     } catch {
       dispatch(getCurrentOffer(undefined));
@@ -121,41 +127,51 @@ export const fetchOfferById = (id: string) : ThunkActionResult =>
 
 export const fetchNearbiesById = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const { data } = await api.get<Offer[]>(APIRoute.Nearbies.replace(':hotel_id', id));
+    const { data } = await api.get<OfferServer[]>(APIRoute.Nearbies.replace(':hotel_id', id));
     dispatch(getNearbies(adaptOffersToClient(data)));
   };
 
 export const fetchReviewsById =  (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const { data } = await api.get<Comment[]>(APIRoute.Reviews.replace(':hotel_id', id));
+    const { data } = await api.get<CommentServer[]>(APIRoute.Reviews.replace(':hotel_id', id));
     dispatch(getReviews(adaptCommentsToClient(data)));
   };
 
 export const postReview = (id: string, comment: string, rating: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try{
-      const { data } = await api.post<Comment[]>(APIRoute.Reviews.replace(':hotel_id', id), {comment, rating});
+      const { data } = await api.post<CommentServer[]>(APIRoute.Reviews.replace(':hotel_id', id), {comment, rating});
       dispatch(getReviews(adaptCommentsToClient(data)));
     } catch {
       toast.info(REVIEW_NOT_UPLOADED_MESSAGE);
     }
   };
 
+export const postFavorite =  (id: string, status: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    try{
+      const { data } = await api.post<OfferServer>(APIRoute.FavoriteSwitch.replace(':hotel_id', id).replace(':status', status));
+      dispatch(setFavorite(adaptOfferToClient(data)));
+    } catch {
+      toast.info(FAVORITE_NOT_CHANGED_MESSAGE);
+    }
+  };
 
 export const checkAuth = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      await api.get(APIRoute.Login);
+      const { data } = await api.get<AuthInfoServer>(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(getAuthInfo(adaptAuthInfoToClient(data)));
     } catch {
-      toast.info(AUTH_NOT_AUTHED_MESSAGE);
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
   };
 
 export const login = ({ login: email, password }: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      const { data } = await api.post(APIRoute.Login, { email, password });
+      const { data } = await api.post<AuthInfoServer>(APIRoute.Login, { email, password });
       saveToken(data.token);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(getAuthInfo(adaptAuthInfoToClient(data)));

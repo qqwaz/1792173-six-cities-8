@@ -33,6 +33,7 @@ function OfferReviewForm(props: PropsFromRedux): JSX.Element {
     comment: '',
   });
 
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const ratingChangeHandler = (rate: number) => () => {
     setReview({...review, rating: rate});
@@ -44,11 +45,13 @@ function OfferReviewForm(props: PropsFromRedux): JSX.Element {
 
   const formSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setReview({rating: 0, comment: ''});
-    if(!currentOffer){
+    if (!currentOffer) {
       return;
     }
+    setIsDisabled(true);
     addReview(currentOffer.id.toString(), review.comment, review.rating);
+    setIsDisabled(false);
+    setReview({rating: 0, comment: ''});
   };
 
   return (
@@ -62,6 +65,7 @@ function OfferReviewForm(props: PropsFromRedux): JSX.Element {
             <input className="form__rating-input visually-hidden" name="rating" value={rate} id={`${rate}-stars`} type="radio"
               onChange={ratingChangeHandler(rate)}
               checked={rate === review.rating}
+              disabled={isDisabled}
             />
             <label htmlFor={`${rate}-stars`} className="reviews__rating-label form__rating-label" title={title}>
               <svg className="form__star-image" width="37" height="33">
@@ -75,6 +79,7 @@ function OfferReviewForm(props: PropsFromRedux): JSX.Element {
         onChange={commentChangeHandler}
         className="reviews__textarea form__textarea" id="review" name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        disabled={isDisabled}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -83,7 +88,7 @@ function OfferReviewForm(props: PropsFromRedux): JSX.Element {
           <b className="reviews__text-amount">50 characters</b>.
         </p>
         <button className="reviews__submit form__submit button" type="submit"
-          disabled={(review.comment.length < MIN_REVIEW_COMMENT_LENGTH) || (review.rating === 0)}
+          disabled={(review.comment.length < MIN_REVIEW_COMMENT_LENGTH) || (review.rating === 0) || isDisabled}
         >
             Submit
         </button>

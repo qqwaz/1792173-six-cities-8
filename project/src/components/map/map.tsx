@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import leaflet, { LayerGroup }  from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapComponentVariant, URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
-import useMap from '../../hooks/useMap';
+import useMap from '../../hooks/use-map';
 import { Offer } from '../../types/offer';
 import { State } from '../../types/state';
 

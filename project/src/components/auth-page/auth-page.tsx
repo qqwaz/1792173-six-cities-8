@@ -1,12 +1,17 @@
 import React, { SyntheticEvent, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect} from 'react-router-dom';
 import Header from '../header/header';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { connect, ConnectedProps } from 'react-redux';
 import { ThunkAppDispatch } from '../../types/action';
 import { AuthData } from '../../types/auth-data';
 import { login } from '../../store/action';
 import { getRandomCity } from '../../utils';
+import { State } from '../../types/state';
+
+const mapStateToProps = ({favorites, authorizationStatus}: State) => ({
+  authorizationStatus,
+});
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onSubmit(authData: AuthData) {
@@ -14,12 +19,13 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   },
 });
 
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function AuthPage(props: PropsFromRedux): JSX.Element {
   const {
+    authorizationStatus,
     onSubmit,
   } = props;
 
@@ -27,6 +33,10 @@ function AuthPage(props: PropsFromRedux): JSX.Element {
 
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return <Redirect to={AppRoute.Main} />;
+  }
 
   const formSubmitHandler = (evt: SyntheticEvent) => {
     evt.preventDefault();

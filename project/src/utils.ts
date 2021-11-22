@@ -5,11 +5,6 @@ import { SortType, Cities } from './const';
 
 export const getRandomCity = (): City => Cities[Math.floor(Math.random() * Cities.length)];
 
-export const getOffer = (id: string, offers: Offer[]): Offer | undefined => {
-  const offerId = Number.parseInt(id, 10);
-  return offers.find((offer) => offer.id === offerId);
-};
-
 export const groupOffersByCity = (offers: Offer[]): Record<string, Offer[]> => offers
   .reduce((acc, offer) => {
     const city = offer.city.name;

@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { ThunkAppDispatch } from '../../types/action';
@@ -10,9 +9,10 @@ import OfferNearPlaces from '../offer-near-places/offer-near-places';
 import OfferReviews from '../offer-reviews/offer-reviews';
 import OfferDescription from '../offer-description/offer-description';
 import Map from '../map/map';
-import { AppRoute, MapComponentVariant } from '../../const';
+import { MapComponentVariant } from '../../const';
 import { fetchNearbiesById, fetchOfferById, fetchReviewsById } from '../../store/action';
 import { State } from '../../types/state';
+import Loading from '../loading/loading';
 
 const mapStateToProps = ({currentOffer, nearbies}: State) => ({
   currentOffer,
@@ -50,8 +50,8 @@ function OfferPage(props: PropsFromRedux): JSX.Element {
     getReviews(id);
   }, [id, getCurrentOffer, getNearbies, getReviews]);
 
-  if (!currentOffer) {
-    return <Redirect to={AppRoute.NotFound} />;
+  if (currentOffer?.id.toString() !== id) {
+    return <Loading />;
   }
 
   return (

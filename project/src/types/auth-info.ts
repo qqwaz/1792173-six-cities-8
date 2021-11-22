@@ -6,3 +6,12 @@ export type AuthInfo =  {
   name: string;
   token: string;
 };
+
+export type AuthInfoServer =  {
+  'avatar_url': string;
+  email: string;
+  id: string;
+  'is_pro': boolean;
+  name: string;
+  token: string;
+};
