@@ -1,24 +1,14 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import OfferReviewForm from '../offer-review-form/offer-review-form';
 import Rating from '../rating/rating';
 import { RatingComponentVariant, AuthorizationStatus } from '../../const';
 import { dateToMonth, dateToDay } from '../../utils';
-import { State } from '../../types/state';
+import { getReviews } from '../../store/data/selectors';
+import { getAuthStatus } from '../../store/service/selectors';
 
-const mapStateToProps = ({reviews, authorizationStatus}: State) => ({
-  reviews,
-  authorizationStatus,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function OfferReviews(props: PropsFromRedux): JSX.Element {
-  const {
-    reviews,
-    authorizationStatus,
-  } = props;
+function OfferReviews(): JSX.Element {
+  const reviews = useSelector(getReviews);
+  const authorizationStatus = useSelector(getAuthStatus);
 
   const isAuthed = authorizationStatus === AuthorizationStatus.Auth;
 
@@ -52,5 +42,4 @@ function OfferReviews(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export { OfferReviews };
-export default connector(OfferReviews);
+export default OfferReviews;

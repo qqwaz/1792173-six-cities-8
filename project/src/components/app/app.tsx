@@ -1,4 +1,4 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Switch, Route, Router as BrowserRouter } from 'react-router-dom';
 import browserHistory from '../../browser-history';
 import MainPage from '../main-page/main-page';
@@ -8,21 +8,11 @@ import OfferPage from '../offer-page/offer-page';
 import NotFoundPage from '../not-found-page/not-fount-page';
 import { AppRoute } from '../../const';
 import PrivateRoute from '../private-route/private-route';
-import { State } from '../../types/state';
 import Loading from '../loading/loading';
+import { getIsLoading } from '../../store/data/selectors';
 
-const mapStateToProps = ({isLoading}: State) => ({
-  isLoading,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function App(props: PropsFromRedux): JSX.Element {
-  const {
-    isLoading,
-  } = props;
+function App(): JSX.Element {
+  const isLoading = useSelector(getIsLoading);
 
   if (isLoading) {
     return <Loading />;
@@ -53,5 +43,4 @@ function App(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export { App };
-export default connector(App);
+export default App;

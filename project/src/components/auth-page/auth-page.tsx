@@ -2,32 +2,14 @@ import React, { SyntheticEvent, useRef } from 'react';
 import { Link, Redirect} from 'react-router-dom';
 import Header from '../header/header';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { connect, ConnectedProps } from 'react-redux';
-import { ThunkAppDispatch } from '../../types/action';
-import { AuthData } from '../../types/auth-data';
+import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../../store/action';
-import { getRandomCity } from '../../utils';
-import { State } from '../../types/state';
+import { checkPasswordConstrains, getRandomCity } from '../../utils';
+import { getAuthStatus } from '../../store/service/selectors';
 
-const mapStateToProps = ({favorites, authorizationStatus}: State) => ({
-  authorizationStatus,
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(authData: AuthData) {
-    dispatch(login(authData));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function AuthPage(props: PropsFromRedux): JSX.Element {
-  const {
-    authorizationStatus,
-    onSubmit,
-  } = props;
+function AuthPage(): JSX.Element {
+  const authorizationStatus = useSelector(getAuthStatus);
+  const dispatch = useDispatch();
 
   const randomCity = getRandomCity();
 
@@ -40,11 +22,11 @@ function AuthPage(props: PropsFromRedux): JSX.Element {
 
   const formSubmitHandler = (evt: SyntheticEvent) => {
     evt.preventDefault();
-    if (emailRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
+    if (emailRef.current !== null && passwordRef.current !== null && checkPasswordConstrains(passwordRef.current.value)) {
+      dispatch(login({
         login: emailRef.current.value,
         password: passwordRef.current.value,
-      });
+      }));
     }
   };
 
@@ -81,5 +63,4 @@ function AuthPage(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export { AuthPage };
-export default connector(AuthPage);
+export default AuthPage;

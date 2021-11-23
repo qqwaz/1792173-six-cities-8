@@ -3,8 +3,15 @@ import { Comment } from './comment';
 import { City } from './city';
 import { AuthInfo } from './auth-info';
 import { SortType, AuthorizationStatus } from '../const';
+import { RootState } from '../store/root-reducer';
 
-export type State = {
+export type ServiceState = {
+  authorizationStatus: AuthorizationStatus,
+  authInfo?: AuthInfo,
+  isSending: boolean,
+}
+
+export type DataState = {
   city: City,
   offers: Offer[],
   favorites: Offer[],
@@ -13,6 +20,6 @@ export type State = {
   currentOffer?: Offer,
   reviews: Comment[],
   isLoading: boolean,
-  authorizationStatus: AuthorizationStatus,
-  authInfo?: AuthInfo,
 }
+
+export type State = RootState;

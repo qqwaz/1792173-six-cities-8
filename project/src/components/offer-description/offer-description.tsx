@@ -1,52 +1,32 @@
 import { SyntheticEvent } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { bindActionCreators } from '@reduxjs/toolkit';
-import { ThunkAppDispatch } from '../../types/action';
+import { useDispatch, useSelector } from 'react-redux';
 import { postFavorite, redirectToRoute } from '../../store/action';
 import { AppRoute, AuthorizationStatus, RatingComponentVariant } from '../../const';
 import Rating from '../rating/rating';
 import { Offer } from '../../types/offer.js';
-import { State } from '../../types/state';
+import { getAuthStatus } from '../../store/service/selectors';
 
 type OfferDescriptionProps = {
   offer: Offer,
 }
 
-const mapStateToProps = ({authorizationStatus}: State) => ({
-  authorizationStatus,
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) =>
-  bindActionCreators(
-    {
-      setFavorite: postFavorite,
-      redirect: redirectToRoute,
-    },
-    dispatch,
-  );
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & OfferDescriptionProps;
-
-function OfferDescription(props: ConnectedComponentProps): JSX.Element {
+function OfferDescription(props: OfferDescriptionProps): JSX.Element {
   const {
     offer,
-    authorizationStatus,
-    setFavorite,
-    redirect,
   } = props;
+
+  const authorizationStatus = useSelector(getAuthStatus);
+  const dispatch = useDispatch();
 
   const isFavoriteStyle = offer.isFavorite ? 'property__bookmark-button--active' : '';
   const isProStyle = offer.host.isPro ? 'property__avatar-wrapper--pro' : '';
 
   const onClick = (e: SyntheticEvent) => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
-      redirect(AppRoute.Auth);
+      dispatch(redirectToRoute(AppRoute.Auth));
       return;
     }
-    setFavorite(offer.id.toString(), Number(!offer.isFavorite).toString());
+    dispatch(postFavorite(offer.id.toString(), Number(!offer.isFavorite).toString()));
   };
 
   return (
@@ -116,5 +96,4 @@ function OfferDescription(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export { OfferDescription };
-export default connector(OfferDescription);
+export default OfferDescription;

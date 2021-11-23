@@ -1,9 +1,12 @@
+import { createAction } from '@reduxjs/toolkit';
 import { saveToken, dropToken } from '../services/token';
 import { Offer, OfferServer } from '../types/offer';
 import { City } from '../types/city';
 import { Comment, CommentServer } from '../types/comment';
 import { AuthInfo, AuthInfoServer } from '../types/auth-info';
 import { AuthData } from '../types/auth-data';
+import {toast} from 'react-toastify';
+import { ActionType, ThunkActionResult } from '../types/action';
 import {
   SortType,
   AuthorizationStatus,
@@ -19,87 +22,89 @@ import {
   adaptOfferToClient,
   adaptCommentsToClient
 } from '../services/adapter';
-import {toast} from 'react-toastify';
-import {
-  ActionType,
-  ThunkActionResult,
-  ChangeCityAction,
-  LoadingAction,
-  GetOffersAction,
-  GetFavoritesAction,
-  GetNearbiesAction,
-  ChangeSortTypeAction,
-  RequireAuthorizationAction,
-  RequireLogoutAction,
-  GetAuthInfoAction,
-  GetCurrentOfferAction,
-  GetReviewsAction,
-  RedirectToRoute,
-  SetFavoriteStatusAction
-} from '../types/action';
 
-export const redirectToRoute = (url: AppRoute): RedirectToRoute => ({
-  type: ActionType.RedirectToRoute,
-  payload: url,
-});
+export const redirectToRoute = createAction(
+  ActionType.RedirectToRoute,
+  (url: AppRoute) => ({
+    payload: url,
+  }),
+);
 
-export const changeCity = (city: City): ChangeCityAction => ({
-  type: ActionType.ChangeCity,
-  payload: city,
-});
+export const changeCity = createAction(
+  ActionType.ChangeCity,
+  (city: City) => ({
+    payload: city,
+  }));
 
-export const getOffers = (offers: Offer[]): GetOffersAction => ({
-  type: ActionType.GetOffers,
-  payload: offers,
-});
+export const getOffers = createAction(
+  ActionType.GetOffers,
+  (offers: Offer[]) => ({
+    payload: offers,
+  }));
 
-export const getFavorites = (offers: Offer[]): GetFavoritesAction => ({
-  type: ActionType.GetFavorites,
-  payload: offers,
-});
+export const getFavorites = createAction(
+  ActionType.GetFavorites,
+  (offers: Offer[]) => ({
+    payload: offers,
+  }));
 
-export const getNearbies = (offers: Offer[]): GetNearbiesAction => ({
-  type: ActionType.GetNearbies,
-  payload: offers,
-});
+export const getNearbies = createAction(
+  ActionType.GetNearbies,
+  (offers: Offer[]) => ({
+    payload: offers,
+  }));
 
-export const getCurrentOffer = (offer: Offer | undefined): GetCurrentOfferAction => ({
-  type: ActionType.GetCurrentOffer,
-  payload: offer,
-});
+export const getCurrentOffer = createAction(
+  ActionType.GetCurrentOffer,
+  (offer: Offer | undefined) => ({
+    payload: offer,
+  }));
 
-export const getReviews = (reviews: Comment[]): GetReviewsAction => ({
-  type: ActionType.GetReviews,
-  payload: reviews,
-});
+export const getReviews = createAction(
+  ActionType.GetReviews,
+  (reviews: Comment[]) => ({
+    payload: reviews,
+  }));
 
-export const setFavorite = (offer: Offer): SetFavoriteStatusAction => ({
-  type: ActionType.SetFavoriteStatus,
-  payload: offer,
-});
+export const setFavoriteStatus = createAction(
+  ActionType.SetFavoriteStatus,
+  (offer: Offer) => ({
+    payload: offer,
+  }));
 
-export const changeSortType = (sortType: SortType): ChangeSortTypeAction => ({
-  type: ActionType.ChangeSortType,
-  payload: sortType,
-});
+export const changeSortType = createAction(
+  ActionType.ChangeSortType,
+  (sortType: SortType) => ({
+    payload: sortType,
+  }));
 
-export const loading = (): LoadingAction => ({
-  type: ActionType.Loading,
-});
+export const loading = createAction(
+  ActionType.Loading,
+);
 
-export const requireAuthorization = (authStatus: AuthorizationStatus): RequireAuthorizationAction => ({
-  type: ActionType.RequireAuthorization,
-  payload: authStatus,
-});
+export const sending = createAction(
+  ActionType.Sending,
+  (isSending: boolean) => ({
+    payload: isSending,
+  }),
+);
 
-export const requireLogout = (): RequireLogoutAction => ({
-  type: ActionType.RequireLogout,
-});
 
-export const getAuthInfo = (info: AuthInfo): GetAuthInfoAction => ({
-  type: ActionType.GetAuthInfo,
-  payload: info,
-});
+export const requireAuthorization = createAction(
+  ActionType.RequireAuthorization,
+  (authStatus: AuthorizationStatus) => ({
+    payload: authStatus,
+  }));
+
+export const requireLogout = createAction(
+  ActionType.RequireLogout,
+);
+
+export const getAuthInfo = createAction(
+  ActionType.GetAuthInfo,
+  (info: AuthInfo) => ({
+    payload: info,
+  }));
 
 export const fetchOffers = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -140,10 +145,13 @@ export const fetchReviewsById =  (id: string): ThunkActionResult =>
 export const postReview = (id: string, comment: string, rating: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try{
+      dispatch(sending(true));
       const { data } = await api.post<CommentServer[]>(APIRoute.Reviews.replace(':hotel_id', id), {comment, rating});
       dispatch(getReviews(adaptCommentsToClient(data)));
     } catch {
       toast.info(REVIEW_NOT_UPLOADED_MESSAGE);
+    } finally {
+      dispatch(sending(false));
     }
   };
 
@@ -151,7 +159,7 @@ export const postFavorite =  (id: string, status: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try{
       const { data } = await api.post<OfferServer>(APIRoute.FavoriteSwitch.replace(':hotel_id', id).replace(':status', status));
-      dispatch(setFavorite(adaptOfferToClient(data)));
+      dispatch(setFavoriteStatus(adaptOfferToClient(data)));
     } catch {
       toast.info(FAVORITE_NOT_CHANGED_MESSAGE);
     }

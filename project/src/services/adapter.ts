@@ -1,6 +1,8 @@
 import { Offer, OfferServer } from '../types/offer';
 import { Comment, CommentServer } from '../types/comment';
 import { AuthInfo, AuthInfoServer } from '../types/auth-info';
+import { sortReviews } from '../utils';
+import { REVIEWS_MAX_AMOUNT } from '../const';
 
 export const adaptOfferToClient = (offer: OfferServer): Offer => {
   const {
@@ -50,7 +52,8 @@ export const adaptCommentToClient = (comment: CommentServer): Comment => {
   });
 };
 
-export const adaptCommentsToClient = (comments: CommentServer[]): Comment[] => comments.map(adaptCommentToClient);
+export const adaptCommentsToClient = (comments: CommentServer[]): Comment[] =>
+  sortReviews(comments.map(adaptCommentToClient)).slice(0, REVIEWS_MAX_AMOUNT);
 
 export const adaptAuthInfoToClient = (info: AuthInfoServer): AuthInfo => ({
   avatarUrl: info.avatar_url,

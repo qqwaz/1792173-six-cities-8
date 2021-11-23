@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { Offer } from './types/offer';
 import { City } from './types/city';
+import { Comment } from './types/comment';
 import { SortType, Cities } from './const';
 
 export const getRandomCity = (): City => Cities[Math.floor(Math.random() * Cities.length)];
@@ -38,3 +39,9 @@ export const sortOffers = (offers: Offer[], sortType: SortType): Offer[] => {
       return offers;
   }
 };
+
+export const checkPasswordConstrains = (password: string): boolean =>
+  /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/.test(password.toLowerCase());
+
+export const sortReviews = (reviews: Comment[]): Comment[] => reviews
+  .sort((a, b) => a.date < b.date ? 1: -1);

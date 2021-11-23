@@ -120,6 +120,7 @@ export const OfferTypeTitle: Record<OfferType, string> = {
 } as const;
 
 export const OFFER_GALLERY_PICTURES_MAX_AMOUNT = 6;
+export const REVIEWS_MAX_AMOUNT = 10;
 
 export const MIN_REVIEW_COMMENT_LENGTH = 50;
 export const MAX_REVIEW_COMMENT_LENGTH = 300;

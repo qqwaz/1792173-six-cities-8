@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PlaceCard from '../place-card/place-card';
 import MainLocations from '../main-locations/main-locations';
 import Header from '../header/header';
@@ -7,25 +7,13 @@ import Sorting from '../sorting/sorting';
 import MainEmpty from '../main-empty/main-empty';
 import Map from '../map/map';
 import { MapComponentVariant, PlaceCardComponentVariant } from '../../const';
-import { State } from '../../types/state';
 import { getOffersByCity, sortOffers } from '../../utils';
+import { getCity, getOffers, getSortType } from '../../store/data/selectors';
 
-const mapStateToProps = ({city, offers, sortType}: State) => ({
-  city,
-  offers,
-  sortType,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function MainPage(props: PropsFromRedux): JSX.Element {
-  const {
-    city,
-    offers,
-    sortType,
-  } = props;
+function MainPage(): JSX.Element {
+  const city = useSelector(getCity);
+  const offers = useSelector(getOffers);
+  const sortType = useSelector(getSortType);
 
   const localOffers = sortOffers(getOffersByCity(city, offers), sortType);
 
@@ -72,5 +60,4 @@ function MainPage(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export { MainPage };
-export default connector(MainPage);
+export default MainPage;

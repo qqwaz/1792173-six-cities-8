@@ -1,38 +1,18 @@
 import { SyntheticEvent } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { bindActionCreators } from '@reduxjs/toolkit';
-import { ThunkAppDispatch } from '../../types/action';
+import { useDispatch, useSelector } from 'react-redux';
 import { postFavorite, redirectToRoute } from '../../store/action';
 import { Link } from 'react-router-dom';
 import Rating from '../rating/rating';
 import { RatingComponentVariant, PlaceCardComponentVariant, AppRoute, OfferTypeTitle, OfferType } from '../../const';
 import { Offer } from '../../types/offer';
-import { State } from '../../types/state';
 import { AuthorizationStatus } from '../../const';
+import { getAuthStatus } from '../../store/service/selectors';
 
 type PlaceCardProps = {
   variant: PlaceCardComponentVariant,
   offer: Offer,
   setActiveOfferId?: (id: number | undefined) => void,
 }
-
-const mapStateToProps = ({authorizationStatus}: State) => ({
-  authorizationStatus,
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) =>
-  bindActionCreators(
-    {
-      setFavorite: postFavorite,
-      redirect: redirectToRoute,
-    },
-    dispatch,
-  );
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & PlaceCardProps;
 
 const ArticleStyle = {
   [PlaceCardComponentVariant.Favorites]: 'favorites__card place-card',
@@ -67,15 +47,15 @@ const ImgSize = {
   },
 };
 
-function PlaceCard(props: ConnectedComponentProps): JSX.Element {
+function PlaceCard(props: PlaceCardProps): JSX.Element {
   const {
     variant,
     offer,
-    authorizationStatus,
     setActiveOfferId,
-    setFavorite,
-    redirect,
   } = props;
+
+  const authorizationStatus = useSelector(getAuthStatus);
+  const dispatch = useDispatch();
 
   function MouseOverHandler() {
     if (setActiveOfferId) {
@@ -93,10 +73,10 @@ function PlaceCard(props: ConnectedComponentProps): JSX.Element {
 
   const onClick = (e: SyntheticEvent) => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
-      redirect(AppRoute.Auth);
+      dispatch(redirectToRoute(AppRoute.Auth));
       return;
     }
-    setFavorite(offer.id.toString(), Number(!offer.isFavorite).toString());
+    dispatch(postFavorite(offer.id.toString(), Number(!offer.isFavorite).toString()));
   };
 
   return (
@@ -138,5 +118,4 @@ function PlaceCard(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export { PlaceCard };
-export default connector(PlaceCard);
+export default PlaceCard;

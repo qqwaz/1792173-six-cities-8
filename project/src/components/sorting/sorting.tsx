@@ -1,32 +1,12 @@
 import { useRef, useState, SyntheticEvent } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect, ConnectedProps } from 'react-redux';
-import { State } from '../../types/state';
-import { ThunkAppDispatch } from '../../types/action';
-import { changeSortType as changeSortTypeState } from '../../store/action';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeSortType } from '../../store/action';
 import { SortType, SortTypeTitle } from '../../const';
+import { getSortType } from '../../store/data/selectors';
 
-const mapStateToProps = ({ sortType }: State) => ({
-  sortType,
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) =>
-  bindActionCreators(
-    {
-      changeSortType: changeSortTypeState,
-    },
-    dispatch,
-  );
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Sorting(props: PropsFromRedux): JSX.Element {
-  const {
-    sortType,
-    changeSortType,
-  } = props;
+function Sorting(): JSX.Element {
+  const sortType = useSelector(getSortType);
+  const dispatch = useDispatch();
 
   const sortingRef = useRef(null);
 
@@ -39,7 +19,7 @@ function Sorting(props: PropsFromRedux): JSX.Element {
 
   const onSelectType = (newSortType: SortType) => (e: SyntheticEvent) => {
     e.preventDefault();
-    changeSortType(newSortType);
+    dispatch(changeSortType(newSortType));
     setIsOpened(false);
   };
 
@@ -67,5 +47,4 @@ function Sorting(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export { Sorting };
-export default connector(Sorting);
+export default Sorting;

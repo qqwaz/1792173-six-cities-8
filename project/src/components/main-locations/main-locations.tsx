@@ -1,37 +1,17 @@
-import { bindActionCreators } from 'redux';
-import { connect, ConnectedProps } from 'react-redux';
-import { State } from '../../types/state';
-import { ThunkAppDispatch } from '../../types/action';
-import { changeCity as changeCityState } from '../../store/action';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeCity } from '../../store/action';
 import { Cities } from '../../const';
 import { SyntheticEvent } from 'react';
 import { City } from '../../types/city';
+import { getCity } from '../../store/data/selectors';
 
-const mapStateToProps = ({ city }: State) => ({
-  city,
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) =>
-  bindActionCreators(
-    {
-      changeCity: changeCityState,
-    },
-    dispatch,
-  );
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function MainLocations(props: PropsFromRedux): JSX.Element {
-  const {
-    city,
-    changeCity,
-  } = props;
+function MainLocations(): JSX.Element {
+  const city = useSelector(getCity);
+  const dispatch = useDispatch();
 
   const onClick = (newCity: City) => (e: SyntheticEvent) => {
     e.preventDefault();
-    changeCity(newCity);
+    dispatch(changeCity(newCity));
   };
 
   return (
@@ -56,5 +36,4 @@ function MainLocations(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export { MainLocations };
-export default connector(MainLocations);
+export default MainLocations;

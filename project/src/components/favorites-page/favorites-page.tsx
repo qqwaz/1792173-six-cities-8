@@ -1,44 +1,25 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { bindActionCreators } from '@reduxjs/toolkit';
 import Header from '../header/header';
 import FavoritesLocations from '../favorites-locations/favorites-locations';
 import FavoritesEmpty from '../favorites-empty/favorites-empty';
 import { groupOffersByCity } from '../../utils';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { ThunkAppDispatch } from '../../types/action';
-import { State } from '../../types/state';
 import { fetchFavorites } from '../../store/action';
 import { useEffect } from 'react';
+import { getFavorites } from '../../store/data/selectors';
+import { getAuthStatus } from '../../store/service/selectors';
 
-const mapStateToProps = ({favorites, authorizationStatus}: State) => ({
-  favorites,
-  authorizationStatus,
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) =>
-  bindActionCreators(
-    {
-      getFavorites: fetchFavorites,
-    },
-    dispatch,
-  );
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function FavoritesPage(props: PropsFromRedux): JSX.Element {
-  const {
-    favorites,
-    authorizationStatus,
-    getFavorites,
-  } = props;
+function FavoritesPage(): JSX.Element {
+  const favorites = useSelector(getFavorites);
+  const authorizationStatus = useSelector(getAuthStatus);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
-      getFavorites();
+      dispatch(fetchFavorites());
     }
-  }, [authorizationStatus, getFavorites]);
+  }, [authorizationStatus, dispatch]);
 
   if (authorizationStatus !== AuthorizationStatus.Auth) {
     return <Redirect to={AppRoute.Auth} />;
@@ -76,5 +57,4 @@ function FavoritesPage(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export { FavoritesPage };
-export default connector(FavoritesPage);
+export default FavoritesPage;

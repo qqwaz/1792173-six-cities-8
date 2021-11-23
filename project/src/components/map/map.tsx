@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import leaflet, { LayerGroup }  from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapComponentVariant, URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import useMap from '../../hooks/use-map';
 import { Offer } from '../../types/offer';
-import { State } from '../../types/state';
+import { getCity } from '../../store/data/selectors';
 
 type MapProps = {
   variant: MapComponentVariant,
@@ -30,24 +30,15 @@ const mapStyle = {
   [MapComponentVariant.Offer]: 'property__map',
 };
 
-const mapStateToProps = ({city}: State) => ({
-  city,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MapProps;
-
 const markers: LayerGroup = leaflet.layerGroup([]);
 
-function Map(props: ConnectedComponentProps): JSX.Element {
+function Map(props: MapProps): JSX.Element {
   const {
     variant,
-    city,
     offers,
     activeOfferId,
   } = props;
+  const city = useSelector(getCity);
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city.location);
@@ -81,5 +72,4 @@ function Map(props: ConnectedComponentProps): JSX.Element {
   return <section className={`${mapStyle[variant]} map`} ref={mapRef}></section>;
 }
 
-export { Map };
-export default connector(Map);
+export default Map;

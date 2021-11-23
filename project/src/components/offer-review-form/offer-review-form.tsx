@@ -1,39 +1,19 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { bindActionCreators } from '@reduxjs/toolkit';
-import { ThunkAppDispatch } from '../../types/action';
+import { useDispatch, useSelector } from 'react-redux';
 import { postReview } from '../../store/action';
-import { State } from '../../types/state';
 import { Rating, MIN_REVIEW_COMMENT_LENGTH, MAX_REVIEW_COMMENT_LENGTH } from '../../const';
+import { getCurrentOffer } from '../../store/data/selectors';
+import { getIsSending } from '../../store/service/selectors';
 
-const mapStateToProps = ({ currentOffer }: State) => ({
-  currentOffer,
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) =>
-  bindActionCreators(
-    {
-      addReview: postReview,
-    },
-    dispatch,
-  );
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function OfferReviewForm(props: PropsFromRedux): JSX.Element {
-  const {
-    currentOffer,
-    addReview,
-  } = props;
+function OfferReviewForm(): JSX.Element {
+  const currentOffer = useSelector(getCurrentOffer);
+  const isDisabled = useSelector(getIsSending);
+  const dispatch = useDispatch();
 
   const [review, setReview] = useState({
     rating: 0,
     comment: '',
   });
-
-  const [isDisabled, setIsDisabled] = useState(false);
 
   const ratingChangeHandler = (rate: number) => () => {
     setReview({...review, rating: rate});
@@ -43,14 +23,12 @@ function OfferReviewForm(props: PropsFromRedux): JSX.Element {
     setReview({...review, comment: e.target.value});
   };
 
-  const formSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
+  const formSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!currentOffer) {
       return;
     }
-    setIsDisabled(true);
-    addReview(currentOffer.id.toString(), review.comment, review.rating);
-    setIsDisabled(false);
+    await dispatch(postReview(currentOffer.id.toString(), review.comment, review.rating));
     setReview({rating: 0, comment: ''});
   };
 
@@ -97,5 +75,4 @@ function OfferReviewForm(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export { OfferReviewForm };
-export default connector(OfferReviewForm);
+export default OfferReviewForm;
