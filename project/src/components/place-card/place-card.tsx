@@ -1,4 +1,4 @@
-import { SyntheticEvent } from 'react';
+import { memo, SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postFavorite, redirectToRoute } from '../../store/action';
 import { Link } from 'react-router-dom';
@@ -118,4 +118,4 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
   );
 }
 
-export default PlaceCard;
+export default memo(PlaceCard);

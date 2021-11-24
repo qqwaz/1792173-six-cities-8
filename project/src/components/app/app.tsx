@@ -6,15 +6,17 @@ import AuthPage from '../auth-page/auth-page';
 import FavoritesPage from '../favorites-page/favorites-page';
 import OfferPage from '../offer-page/offer-page';
 import NotFoundPage from '../not-found-page/not-fount-page';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import Loading from '../loading/loading';
 import { getIsLoading } from '../../store/data/selectors';
+import { getAuthStatus } from '../../store/service/selectors';
 
 function App(): JSX.Element {
   const isLoading = useSelector(getIsLoading);
+  const authStatus = useSelector(getAuthStatus);
 
-  if (isLoading) {
+  if (isLoading || authStatus === AuthorizationStatus.Unknown) {
     return <Loading />;
   }
 

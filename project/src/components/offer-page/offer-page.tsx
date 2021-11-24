@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import Header from '../header/header';
@@ -53,4 +53,4 @@ function OfferPage(): JSX.Element {
   );
 }
 
-export default OfferPage;
+export default memo(OfferPage);

@@ -1,9 +1,9 @@
-import React, { SyntheticEvent, useRef } from 'react';
-import { Link, Redirect} from 'react-router-dom';
+import React, { memo, SyntheticEvent, useRef } from 'react';
+import { Redirect} from 'react-router-dom';
 import Header from '../header/header';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useSelector, useDispatch } from 'react-redux';
-import { login } from '../../store/action';
+import { login, changeCity, redirectToRoute } from '../../store/action';
 import { checkPasswordConstrains, getRandomCity } from '../../utils';
 import { getAuthStatus } from '../../store/service/selectors';
 
@@ -30,6 +30,12 @@ function AuthPage(): JSX.Element {
     }
   };
 
+  const onClick = (evt: SyntheticEvent) => {
+    evt.preventDefault();
+    dispatch(changeCity(randomCity));
+    dispatch(redirectToRoute(AppRoute.Main));
+  };
+
   return (
     <div className="page page--gray page--login">
       <Header />
@@ -52,9 +58,9 @@ function AuthPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to={AppRoute.Main}>
+              <a className="locations__item-link" href="#" onClick={onClick}>
                 <span>{randomCity.name}</span>
-              </Link>
+              </a>
             </div>
           </section>
         </div>
@@ -63,4 +69,4 @@ function AuthPage(): JSX.Element {
   );
 }
 
-export default AuthPage;
+export default memo(AuthPage);
