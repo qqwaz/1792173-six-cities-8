@@ -79,11 +79,11 @@ export const changeSortType = createAction(
   }));
 
 export const loading = createAction(
-  ActionType.Loading,
+  ActionType.Load,
 );
 
 export const sending = createAction(
-  ActionType.Sending,
+  ActionType.Send,
   (isSending: boolean) => ({
     payload: isSending,
   }),
@@ -148,8 +148,9 @@ export const postReview = (id: string, comment: string, rating: number): ThunkAc
       dispatch(sending(true));
       const { data } = await api.post<CommentServer[]>(APIRoute.Reviews.replace(':hotel_id', id), {comment, rating});
       dispatch(getReviews(adaptCommentsToClient(data)));
-    } catch {
+    } catch(e) {
       toast.info(REVIEW_NOT_UPLOADED_MESSAGE);
+      throw e;
     } finally {
       dispatch(sending(false));
     }

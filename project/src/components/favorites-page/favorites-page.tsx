@@ -6,7 +6,7 @@ import FavoritesEmpty from '../favorites-empty/favorites-empty';
 import { groupOffersByCity } from '../../utils';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { fetchFavorites } from '../../store/action';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { getFavorites } from '../../store/data/selectors';
 import { getAuthStatus } from '../../store/service/selectors';
 
@@ -57,4 +57,4 @@ function FavoritesPage(): JSX.Element {
   );
 }
 
-export default FavoritesPage;
+export default memo(FavoritesPage);

@@ -1,4 +1,4 @@
-import { useRef, useState, SyntheticEvent } from 'react';
+import { useRef, useState, SyntheticEvent, useCallback, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeSortType } from '../../store/action';
 import { SortType, SortTypeTitle } from '../../const';
@@ -17,11 +17,11 @@ function Sorting(): JSX.Element {
     setIsOpened(!isOpened);
   };
 
-  const onSelectType = (newSortType: SortType) => (e: SyntheticEvent) => {
+  const onSelectType = useCallback((newSortType: SortType) => (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(changeSortType(newSortType));
     setIsOpened(false);
-  };
+  }, [dispatch]);
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -47,4 +47,4 @@ function Sorting(): JSX.Element {
   );
 }
 
-export default Sorting;
+export default memo(Sorting);

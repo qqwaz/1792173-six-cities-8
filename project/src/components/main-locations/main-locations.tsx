@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCity } from '../../store/action';
 import { Cities } from '../../const';
-import { SyntheticEvent } from 'react';
+import { memo, SyntheticEvent } from 'react';
 import { City } from '../../types/city';
 import { getCity } from '../../store/data/selectors';
 
@@ -36,4 +36,4 @@ function MainLocations(): JSX.Element {
   );
 }
 
-export default MainLocations;
+export default memo(MainLocations);
