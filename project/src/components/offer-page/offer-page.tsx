@@ -45,6 +45,7 @@ function OfferPage(): JSX.Element {
             variant={MapComponentVariant.Offer}
             activeOfferId={currentOffer.id}
             offers={[...nearbies, currentOffer]}
+            city={currentOffer.city}
           />
         </section>
         <OfferNearPlaces offers={nearbies} />

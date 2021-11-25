@@ -1,11 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Header from '../header/header';
 import FavoritesLocations from '../favorites-locations/favorites-locations';
 import FavoritesEmpty from '../favorites-empty/favorites-empty';
 import { groupOffersByCity } from '../../utils';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { fetchFavorites } from '../../store/action';
+import { fetchFavorites, redirectToRoute } from '../../store/action';
 import { memo, useEffect } from 'react';
 import { getFavorites } from '../../store/data/selectors';
 import { getAuthStatus } from '../../store/service/selectors';
@@ -16,14 +16,10 @@ function FavoritesPage(): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (authorizationStatus === AuthorizationStatus.Auth) {
-      dispatch(fetchFavorites());
-    }
+    authorizationStatus === AuthorizationStatus.Auth
+      ? dispatch(fetchFavorites())
+      : dispatch(redirectToRoute(AppRoute.Auth));
   }, [authorizationStatus, dispatch]);
-
-  if (authorizationStatus !== AuthorizationStatus.Auth) {
-    return <Redirect to={AppRoute.Auth} />;
-  }
 
   const isEmpty = !favorites.length;
 

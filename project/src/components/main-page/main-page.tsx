@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PlaceCard from '../place-card/place-card';
 import MainLocations from '../main-locations/main-locations';
@@ -15,7 +15,7 @@ function MainPage(): JSX.Element {
   const offers = useSelector(getOffers);
   const sortType = useSelector(getSortType);
 
-  const localOffers = sortOffers(getOffersByCity(city, offers), sortType);
+  const localOffers = useMemo(() => sortOffers(getOffersByCity(city, offers), sortType), [city, offers, sortType]);
 
   const isEmpty = !localOffers.length;
 
@@ -50,6 +50,7 @@ function MainPage(): JSX.Element {
                     variant={MapComponentVariant.Main}
                     activeOfferId={activeOfferId}
                     offers={localOffers}
+                    city={city}
                   />
                 </div>
               </div>
