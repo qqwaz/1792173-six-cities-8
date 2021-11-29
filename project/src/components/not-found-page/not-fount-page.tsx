@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import Header from '../header/header';
+import { linkStyle } from './styles';
 
 function NotFoundPage(): JSX.Element {
   return (
@@ -14,7 +15,7 @@ function NotFoundPage(): JSX.Element {
             <div className="favorites__status-wrapper">
               <b className="favorites__status">404: Page not found.</b>
               <Link className="favorites__status-description" to={AppRoute.Main}>
-                <p style={{textDecoration: 'underline'}}>Go to the main page</p>
+                <p style={linkStyle}>Go to the main page</p>
               </Link>
             </div>
           </section>

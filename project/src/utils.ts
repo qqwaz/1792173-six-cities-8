@@ -3,6 +3,7 @@ import { Offer } from './types/offer';
 import { City } from './types/city';
 import { Comment } from './types/comment';
 import { SortType, Cities } from './const';
+import { CSSProperties } from 'react';
 
 export const getRandomCity = (): City => Cities[Math.floor(Math.random() * Cities.length)];
 
@@ -23,10 +24,6 @@ export function dateToDay(date: Date): string {
   return dayjs(date).format('YYYY-MM-DD');
 }
 
-export function dateToISO(date: Date): string {
-  return dayjs(date).toISOString();
-}
-
 export const sortOffers = (offers: Offer[], sortType: SortType): Offer[] => {
   switch (sortType) {
     case SortType.ToHigh:
@@ -45,3 +42,7 @@ export const checkPasswordConstrains = (password: string): boolean =>
 
 export const sortReviews = (reviews: Comment[]): Comment[] => reviews
   .sort((a, b) => a.date < b.date ? 1: -1);
+
+export const calcStarsStyle = (value: number): CSSProperties => ({
+  width: `${Math.round(value) * 20}%`,
+});
