@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import redux, { Provider } from 'react-redux';
+import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
