@@ -1,6 +1,7 @@
 import { memo, SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { postFavorite, redirectToRoute } from '../../store/action';
+import { redirectToRoute } from '../../store/actions';
+import { postFavorite } from '../../store/api-actions';
 import { Link } from 'react-router-dom';
 import Rating from '../rating/rating';
 import { RatingComponentVariant, PlaceCardComponentVariant, AppRoute, OfferTypeTitle, OfferType } from '../../const';

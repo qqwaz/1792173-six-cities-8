@@ -1,6 +1,7 @@
 import { SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { postFavorite, redirectToRoute } from '../../store/action';
+import { redirectToRoute } from '../../store/actions';
+import { postFavorite } from '../../store/api-actions';
 import { AppRoute, AuthorizationStatus, RatingComponentVariant } from '../../const';
 import Rating from '../rating/rating';
 import { Offer } from '../../types/offer.js';

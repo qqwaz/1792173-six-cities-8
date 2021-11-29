@@ -28,7 +28,7 @@ function MainPage(): JSX.Element {
         <MainLocations />
         <div className="cities">
           {isEmpty
-            ? <MainEmpty />
+            ? <MainEmpty city={city}/>
             : (
               <div className="cities__places-container container">
                 <section className="cities__places places">

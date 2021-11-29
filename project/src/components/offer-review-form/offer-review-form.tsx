@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { postReview } from '../../store/action';
+import { postReview } from '../../store/api-actions';
 import { Rating, MIN_REVIEW_COMMENT_LENGTH, MAX_REVIEW_COMMENT_LENGTH } from '../../const';
 import { getCurrentOffer } from '../../store/data/selectors';
 import { getIsSending } from '../../store/service/selectors';

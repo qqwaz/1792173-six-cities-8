@@ -1,6 +1,6 @@
 import { useRef, useState, SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeSortType } from '../../store/action';
+import { changeSortType } from '../../store/actions';
 import { SortType, SortTypeTitle } from '../../const';
 import { getSortType } from '../../store/data/selectors';
 

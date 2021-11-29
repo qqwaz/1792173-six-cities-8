@@ -13,5 +13,5 @@ export type CommentServer = {
   user: UserServer,
   rating: number,
   comment: string,
-  date: Date,
+  date: string,
 };
