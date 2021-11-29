@@ -31,7 +31,7 @@ export type OfferServer = {
   'is_favorite': boolean,
   'is_premium': boolean,
   rating: number,
-  type: OfferType,
+  type: string,
   bedrooms: number,
   'max_adults': number,
   price: number,

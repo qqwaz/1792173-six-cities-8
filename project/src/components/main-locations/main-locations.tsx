@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { changeCity } from '../../store/action';
+import { changeCity } from '../../store/actions';
 import { Cities } from '../../const';
 import { memo, SyntheticEvent } from 'react';
 import { City } from '../../types/city';

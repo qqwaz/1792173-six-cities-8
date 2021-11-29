@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, changeSortType, getCurrentOffer, getFavorites, getNearbies, getOffers, getReviews, setFavoriteStatus, loading } from '../action';
+import { changeCity, changeSortType, getCurrentOffer, getFavorites, getNearbies, getOffers, getReviews, setFavoriteStatus, loading } from '../actions';
 import { DataState } from '../../types/state';
 import { DefaultCity, SortType } from '../../const';
 

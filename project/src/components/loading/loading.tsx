@@ -4,10 +4,11 @@ import { rootStyle } from './styles';
 
 function Loading(): JSX.Element {
   return (
-    <div style={rootStyle}>
+    <div style={rootStyle} data-testid="loading">
       <Loader
         type='Oval'
         color='#4481C3'
+
       />;
     </div>
   );

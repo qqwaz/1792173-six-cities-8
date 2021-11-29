@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Switch, Route, Router as BrowserRouter } from 'react-router-dom';
-import browserHistory from '../../browser-history';
+import { Switch, Route } from 'react-router-dom';
 import MainPage from '../main-page/main-page';
 import AuthPage from '../auth-page/auth-page';
 import FavoritesPage from '../favorites-page/favorites-page';
@@ -23,25 +22,23 @@ function App(): JSX.Element {
   const favoritesPageRender = () => <FavoritesPage />;
 
   return (
-    <BrowserRouter history={browserHistory}>
-      <Switch>
-        <Route exact path={AppRoute.Main}>
-          <MainPage />
-        </Route>
-        <Route exact path={AppRoute.Auth}>
-          <AuthPage />
-        </Route>
-        <PrivateRoute exact path={AppRoute.Favorites}
-          render={favoritesPageRender}
-        />
-        <Route exact path={`${AppRoute.Offer}/:id`}>
-          <OfferPage />
-        </Route>
-        <Route>
-          <NotFoundPage />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+    <Switch>
+      <Route exact path={AppRoute.Main}>
+        <MainPage />
+      </Route>
+      <Route exact path={AppRoute.Auth}>
+        <AuthPage />
+      </Route>
+      <PrivateRoute exact path={AppRoute.Favorites}
+        render={favoritesPageRender}
+      />
+      <Route exact path={`${AppRoute.Offer}/:id`}>
+        <OfferPage />
+      </Route>
+      <Route>
+        <NotFoundPage />
+      </Route>
+    </Switch>
   );
 }
 

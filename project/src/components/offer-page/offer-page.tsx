@@ -8,7 +8,7 @@ import OfferReviews from '../offer-reviews/offer-reviews';
 import OfferDescription from '../offer-description/offer-description';
 import Map from '../map/map';
 import { MapComponentVariant } from '../../const';
-import { fetchNearbiesById, fetchOfferById, fetchReviewsById } from '../../store/action';
+import { fetchNearbiesById, fetchOfferById, fetchReviewsById } from '../../store/api-actions';
 import Loading from '../loading/loading';
 import { getCurrentOffer, getNearbies } from '../../store/data/selectors';
 

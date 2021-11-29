@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { requireAuthorization, requireLogout, getAuthInfo, sending } from '../action';
+import { requireAuthorization, requireLogout, getAuthInfo, sending } from '../actions';
 import { AuthorizationStatus } from '../../const';
 import { ServiceState } from '../../types/state';
 

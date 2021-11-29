@@ -3,9 +3,12 @@ import ReactDOM from 'react-dom';
 import App from './components/app/app';
 import { createAPI } from './services/api';
 import { Provider } from 'react-redux';
+import {Router as BrowserRouter} from 'react-router-dom';
+import browserHistory from './browser-history';
 import { configureStore } from '@reduxjs/toolkit';
 import { ThunkAppDispatch } from './types/action';
-import { checkAuth, fetchOffers, requireAuthorization } from './store/action';
+import { requireAuthorization } from './store/actions';
+import { checkAuth, fetchOffers } from './store/api-actions';
 import { AuthorizationStatus } from './const';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -29,8 +32,10 @@ const store = configureStore({
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
-      <App />
+      <BrowserRouter history={browserHistory}>
+        <ToastContainer />
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));
